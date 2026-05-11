@@ -17,7 +17,7 @@ app = Flask(__name__)
 # for database mysqlclient and flasksqlalchemy is installed
 # database configuration
 app.secret_key = "secretkeycanbeanythingonlyforsecuritypurpose"
-app.config['SQLALCHEMY_DATABASE_URI'] = "mysql+pymysql://root:@localhost:3306/ecom?ssl_disabled=true"
+app.config['SQLALCHEMY_DATABASE_URI'] = "mysql+pymysql://root:aaryan123@localhost:3306/ecom?ssl_disabled=true"
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 
