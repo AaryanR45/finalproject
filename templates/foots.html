@@ -1,129 +1,88 @@
 <style>
-* {
-    margin: 0;
-    padding: 0;
+.psg-footer {
+  background: #1e1b2e;
+  color: #c4b5fd;
+  padding: 3rem 2rem 1.5rem;
+  margin-top: 4rem;
 }
-
-body {
-    font-family: Arial, sans-serif;
+.psg-footer-grid {
+  max-width: 1100px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr;
+  gap: 2.5rem;
+  padding-bottom: 2rem;
+  border-bottom: 1px solid rgba(196,181,253,0.15);
 }
-
-.footer {
-    background-color: #6a4cfc;
-    color: #F8F8F8;
-    padding: 20px 0;
-    margin-top: 30px;
-    font-family: Arial, sans-serif;
+.psg-footer h4 {
+  color: #fff;
+  font-size: 15px;
+  font-weight: 700;
+  margin-bottom: 0.9rem;
+  letter-spacing: -0.2px;
 }
-
-.elements {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-evenly;
-    gap: 20px;
-    padding: 0 20px;
+.psg-footer p, .psg-footer li {
+  font-size: 13.5px;
+  line-height: 1.7;
+  color: #a78bfa;
 }
-
-.about, .links, .contact {
-    margin-top: 20px;
-    max-width: 300px;
+.psg-footer ul { list-style: none; padding: 0; }
+.psg-footer ul li { margin-bottom: 6px; }
+.psg-footer ul li a {
+  color: #a78bfa;
+  text-decoration: none;
+  transition: color 0.2s;
 }
-
-.about h3, .links h3, .contact h3 {
-    color: #F8F8F8;
-    margin-bottom: 10px;
+.psg-footer ul li a:hover { color: #f9a8d4; }
+.psg-footer .brand-footer {
+  font-size: 1.2rem;
+  font-weight: 800;
+  color: #fff;
+  margin-bottom: 0.6rem;
+  display: block;
 }
-
-.about p {
-    line-height: 1.6;
-    font-size: 14px;
+.psg-footer .brand-footer span { color: #f9a8d4; }
+.psg-footer-bottom {
+  max-width: 1100px;
+  margin: 1.25rem auto 0;
+  text-align: center;
+  font-size: 12.5px;
+  color: #6b7280;
 }
-
-.links ul, .contact ul {
-    padding: 0;
+@media (max-width: 640px) {
+  .psg-footer-grid { grid-template-columns: 1fr; gap: 1.5rem; }
 }
-
-.links li, .contact li {
-    list-style-type: none;
-    margin: 5px 0;
-}
-
-.links a {
-    text-decoration: none;
-    color: #ff4081; /* Rich Pink */
-    transition: color 0.3s ease;
-}
-
-.links a:hover {
-    color: #ff80bf; /* Lighter Rich Pink */
-}
-
-.contact li {
-    font-size: 14px;
-}
-
-.line {
-    width: 75%;
-    height: 3px;
-    background-color: #FFFFFF;
-    margin-inline: auto;
-}
-
-.rights {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-top: 20px;
-    padding-bottom: 20px;
-    font-size: 14px;
-    color: #F8F8F8;
-}
-
-.about h3 {
-    font-family: 'Merriweather', 'Georgia', serif;
-    font-size: 18px;
-    font-style: italic;
-}
-
-.links a {
-    font-family: 'Roboto', Arial, Helvetica, sans-serif;
-    font-size: 14px;
-    color: white;
-    text-decoration: none;
-}
-
-
 </style>
 
-
-<footer class="footer">
-    <div class="elements">
-        <div class="about">
-            <h3>About us</h3>
-            <p>Hi it`s me Aaryan. This is my final project prostrikegears a recommendation system based ecommerce website.</p>
-        </div>
-        <div class="links">
-            <h3>Quick Links</h3>
-            <ul>
-                <li><a href="/about">About us</a></li>
-                <li><a href="/categories">Categories</a></li>
-            </ul>
-        </div>
-        <div class="contact">
-            <h3>Contact Us</h3>
-            <ul>
-                <li>Kathmandu, Nepal</li>
-                <li>Phone: +977 9818634241</li>
-                <li>Email: risalaaryan07@gmail.com</li>
-            </ul>
-        </div>
+<footer class="psg-footer">
+  <div class="psg-footer-grid">
+    <div>
+      <span class="brand-footer">ProStrike <span>Gears</span></span>
+      <p>Nepal's go-to sports equipment store. Quality gear for cricketers, footballers, and athletes of all levels. Built as a seventh semester recommendation system project.</p>
     </div>
-    <div style="margin-top:5vh;">
-       <div class="line">
-
-       </div>
+    <div>
+      <h4>Quick Links</h4>
+      <ul>
+        <li><a href="/index"><i class="fas fa-home fa-xs"></i> Home</a></li>
+        <li><a href="/categories"><i class="fas fa-th fa-xs"></i> Categories</a></li>
+        <li><a href="/about"><i class="fas fa-info-circle fa-xs"></i> About</a></li>
+        <li><a href="/cart"><i class="fas fa-shopping-cart fa-xs"></i> Cart</a></li>
+      </ul>
     </div>
-    <div class="rights">
-            <p>© ProStrike Gears. All Rights Reserved.</p>
-        </div>
+    <div>
+      <h4>Contact</h4>
+      <ul>
+        <li><i class="fas fa-map-marker-alt fa-xs"></i> VagwanPau, Kathmandu</li>
+        <li><i class="fas fa-phone fa-xs"></i> +977 9748377307</li>
+        <li><i class="fas fa-envelope fa-xs"></i> swarupdahal17@gmail.com</li>
+      </ul>
+    </div>
+  </div>
+  <div class="psg-footer-bottom">
+    &copy; 2025 ProStrike Gears. All rights reserved.
+  </div>
 </footer>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>

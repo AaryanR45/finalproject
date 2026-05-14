@@ -1,65 +1,80 @@
 <!doctype html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Purchase Success</title>
-    <style>
-        .purchase {
-            margin-left: 30%;
-            display: flex;
-        }
-        .purchase-img {
-            margin-right: 30px;
-        }
-        a {
-            text-decoration: none;
-            color: black;
-        }
-        .button-link {
-            position: absolute;
-            display: flex;
-            flex-direction: column;
-            width: 120px;
-            margin-left: 30px;
-            top: 20vh;
-        }
-        .button-link button {
-            border-radius: 8px;
-            margin-top: 20px;
-        }
-        .button-link a:hover {
-            text-decoration: none;
-            color: black;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Purchase Successful — ProStrike Gears</title>
+  <style>
+    .success-wrap { max-width: 640px; margin: 4rem auto; padding: 0 1.5rem; text-align: center; }
+    .success-icon {
+      width: 80px; height: 80px; border-radius: 50%;
+      background: #dcfce7; display: flex; align-items: center; justify-content: center;
+      margin: 0 auto 1.5rem; font-size: 2rem; color: #16a34a;
+    }
+    .success-wrap h1 { font-size: 1.8rem; font-weight: 800; color: #1e1b2e; margin-bottom: 0.5rem; }
+    .success-wrap .subtitle { color: #6b7280; font-size: 14.5px; margin-bottom: 2rem; }
+    .order-card {
+      background: #fff; border-radius: 16px; border: 1px solid #ede9fe;
+      padding: 1.75rem; margin-bottom: 2rem;
+      box-shadow: 0 4px 20px rgba(124,58,237,0.07);
+    }
+    .order-card img {
+      width: 120px; height: 120px; object-fit: cover;
+      border-radius: 12px; border: 1px solid #ede9fe; margin-bottom: 1rem;
+    }
+    .order-row {
+      display: flex; justify-content: space-between;
+      padding: 8px 0; border-bottom: 1px solid #f3f4f6;
+      font-size: 14px;
+    }
+    .order-row:last-child { border-bottom: none; }
+    .order-row .label { color: #6b7280; }
+    .order-row .val { font-weight: 700; color: #1e1b2e; }
+
+    .action-row { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+    .btn-primary-action {
+      padding: 12px 24px; background: #7c3aed; color: #fff;
+      border-radius: 10px; font-weight: 700; text-decoration: none;
+      transition: 0.2s; font-size: 14px;
+    }
+    .btn-primary-action:hover { background: #5b21b6; color: #fff; text-decoration: none; }
+    .btn-secondary-action {
+      padding: 12px 24px; background: #ede9fe; color: #7c3aed;
+      border-radius: 10px; font-weight: 700; text-decoration: none;
+      transition: 0.2s; font-size: 14px;
+    }
+    .btn-secondary-action:hover { background: #ddd6fe; text-decoration: none; }
+  </style>
 </head>
 <body>
-    {% include 'heads.html' %}
+{% include 'heads.html' %}
 
-    {% if esewa_info %}
-        <div class="purchase">
-            <div class="purchase-img">
-                <img src="{{ esewa_info.image }}" alt="{{ esewa_info.pname }}" height="300" width="200">
-            </div>
-            <div class="purchase-info">
-                <h1>Thank You For Your Purchase!</h1>
-                <p><strong>Id:</strong> {{ esewa_info.pid }}</p>
-                <p><strong>Name:</strong> {{ esewa_info.pname }}</p>
-                <p><strong>Quantity:</strong> {{ esewa_info.quantity }}</p>
-                <p><strong>Price:</strong> Rs {{ esewa_info.price }}</p>
-            </div>
-        </div>
+<div class="success-wrap">
+  <div class="success-icon"><i class="fas fa-check"></i></div>
+  <h1>Payment Successful!</h1>
+  <p class="subtitle">Thank you for your purchase. Your order has been confirmed.</p>
 
-        <div class="button-link">
-            <button><a href="{{ url_for('index') }}">Back to Products</a></button>
-            <button><a href="{{ url_for('cart') }}">Cart</a></button>
-           
-        </div>
-    {% else %}
-        <p>No purchase information available. Please try again.</p>
+  {% if esewa_info %}
+  <div class="order-card">
+    {% if esewa_info.image %}
+    <img src="{{ esewa_info.image }}" alt="{{ esewa_info.pname }}" onerror="this.style.display='none'">
     {% endif %}
+    <div class="order-row"><span class="label">Product</span><span class="val">{{ esewa_info.pname }}</span></div>
+    <div class="order-row"><span class="label">Quantity</span><span class="val">{{ esewa_info.quantity }}</span></div>
+    <div class="order-row"><span class="label">Total Paid</span><span class="val" style="color:#7c3aed;">Rs {{ esewa_info.price }}</span></div>
+  </div>
+  {% else %}
+  <div class="order-card">
+    <p style="color:#6b7280;">Payment confirmed. Check your purchase history for details.</p>
+  </div>
+  {% endif %}
 
-    {% include 'foots.html' %}
+  <div class="action-row">
+    <a href="{{ url_for('index') }}" class="btn-primary-action"><i class="fas fa-store"></i> Keep Shopping</a>
+    <a href="{{ url_for('detail') }}" class="btn-secondary-action"><i class="fas fa-receipt"></i> Order History</a>
+  </div>
+</div>
+
+{% include 'foots.html' %}
 </body>
 </html>

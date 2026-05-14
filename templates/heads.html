@@ -1,226 +1,280 @@
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.1/css/all.min.css" integrity="sha512-5Hs3dF2AEPkpNAR7UiOHba+lRSJNeM2ECkwxUIxC1Q/FLycGTbNapWXB4tP889k5T5Ju8fs4b1P5z/iB4nMfSQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.1/css/all.min.css">
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 
 <style>
-    body {
-        font-family: Arial, sans-serif;
-        background-color: #f8f8f8;
-    }
-    * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-    }
-
-    .navbar {
-        background-color: #8b5cf6;
-        color: white;
-        padding: 10px 20px;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
-    }
-    .logo-container a {
-        font-size: 1.5rem;
-        font-weight: bold;
-        color: white;
-        text-decoration: none;
-
-    }
-.logo-container a:hover{
-     text-decoration: none;
-     color:white;
-
+:root {
+  --primary: #7c3aed;
+  --primary-dark: #5b21b6;
+  --primary-light: #ede9fe;
+  --accent: #f43f5e;
+  --accent-dark: #be123c;
+  --bg: #f8f7ff;
+  --surface: #ffffff;
+  --text: #1e1b2e;
+  --muted: #6b7280;
+  --border: #e5e7eb;
+  --radius: 10px;
+  --shadow: 0 4px 20px rgba(124,58,237,0.08);
 }
-    .search-bar {
-        display: flex;
-        align-items: center;
-        position: relative;
-    }
-    .search-bar input {
-        width: 50vh;
-        padding: 8px;
-        border-radius: 5px;
-        border: 1px solid #ccc;
-        font-size: 1rem;
-    }
-    .search-bar button {
-        background-color: #ff4081;
-        color: white;
-        border: none;
-        padding: 8px 12px;
-        border-radius: 5px;
-        cursor: pointer;
-        transition: background-color 0.3s ease;
-    }
-    .search-bar button:hover {
-        background-color: #d1366d;
-    }
 
-    #suggestions {
-        position: absolute;
-        top: 100%;
-        background-color: white;
-        border: 1px solid #ccc;
-        border-radius: 4px;
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        z-index: 1000;
-        max-height: 300px;
-        overflow-y: auto;
-        display: none;
-        width: 100%;
-    }
-    .suggestion-item {
-        padding: 8px 12px;
-        cursor: pointer;
-        font-size: 1rem;
-        color: #333;
-        transition: background-color 0.2s ease;
-    }
-    .suggestion-item:hover {
-        background-color: #f9f9f9;
-    }
+* { margin: 0; padding: 0; box-sizing: border-box; }
 
-    .cart, .user {
-        cursor: pointer;
-    }
-    .cart i, .user i {
-        font-size: 1.5rem;
-        color: white;
-        transition: transform 0.3s ease;
-    }
-    .cart i:hover, .user i:hover {
-        transform: scale(1.1);
-    }
-    .nav-links {
-        display: flex;
-        align-items: center;
-        gap: 20px;
-    }
-    .nav-links a {
-        color: white;
-        font-size: 1rem;
-        text-decoration: none;
-        font-weight: 500;
-        padding: 8px 12px;
-        border-radius: 5px;
-        transition: background-color 0.3s ease;
-    }
-    .signup {
-        background-color: #ff4081;
-    }
-    .signup:hover {
-        background-color: #d1366d;
-        text-decoration:none;
-        color:white;
-    }
-    .signin {
-        background-color: white;
-        color: #8b5cf6 !important;
-    }
-    .signin:hover {
-        background-color: #e0d7fc;
-         text-decoration:none;
-    }
-    .logout {
-        background-color: white;
-        color: #ff4081 !important;
-        border: 1px solid #ff4081;
-    }
-    .logout:hover {
-        background-color: #d1366d;
-        color: white !important;
-        text-decoration:none;
-    }
-   .user {
-    position: relative;
-    text-align: center;
+body {
+  font-family: 'Inter', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
 }
-    .user i {
-    font-size: 1.5rem;
+
+/* ── Navbar ── */
+.psg-nav {
+  background: var(--primary);
+  padding: 0 2rem;
+  height: 62px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  box-shadow: 0 2px 12px rgba(91,33,182,0.25);
 }
-    .user span {
-    position: absolute;
-    top: 68%;
-    left: 45%;
-    transform: translateX(-50%);
-    font-size: 0.9rem;
-    color: black;
-    margin-top: 5px;
+
+.psg-nav .brand {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #fff;
+  text-decoration: none;
+  letter-spacing: -0.3px;
+  white-space: nowrap;
 }
+.psg-nav .brand:hover { color: #e9d5ff; text-decoration: none; }
+.psg-nav .brand span { color: #f9a8d4; }
+
+.psg-search {
+  flex: 1;
+  max-width: 440px;
+  margin: 0 2rem;
+  position: relative;
+}
+.psg-search form { display: flex; }
+.psg-search input {
+  flex: 1;
+  padding: 9px 14px;
+  border-radius: 8px 0 0 8px;
+  border: none;
+  font-size: 14px;
+  outline: none;
+  background: rgba(255,255,255,0.15);
+  color: #fff;
+  transition: background 0.2s;
+}
+.psg-search input::placeholder { color: rgba(255,255,255,0.6); }
+.psg-search input:focus { background: rgba(255,255,255,0.25); }
+.psg-search button {
+  background: var(--accent);
+  border: none;
+  color: #fff;
+  padding: 9px 16px;
+  border-radius: 0 8px 8px 0;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.psg-search button:hover { background: var(--accent-dark); }
+
+#suggestions {
+  position: absolute;
+  top: calc(100% + 4px);
+  left: 0; right: 0;
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+  z-index: 2000;
+  max-height: 280px;
+  overflow-y: auto;
+  display: none;
+}
+.suggestion-item {
+  padding: 10px 14px;
+  font-size: 13.5px;
+  cursor: pointer;
+  color: var(--text);
+  border-bottom: 1px solid var(--border);
+  transition: background 0.15s;
+}
+.suggestion-item:last-child { border-bottom: none; }
+.suggestion-item:hover { background: var(--primary-light); color: var(--primary); }
+
+.psg-nav-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  white-space: nowrap;
+}
+
+.psg-nav-actions .nav-cart {
+  color: #fff;
+  font-size: 1.1rem;
+  position: relative;
+  padding: 6px 8px;
+  border-radius: 8px;
+  transition: background 0.2s;
+  text-decoration: none;
+}
+.psg-nav-actions .nav-cart:hover { background: rgba(255,255,255,0.15); }
+
+.psg-nav-actions .nav-username {
+  color: #e9d5ff;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 10px;
+  border-radius: 8px;
+  transition: background 0.2s;
+  text-decoration: none;
+}
+.psg-nav-actions .nav-username:hover { background: rgba(255,255,255,0.15); }
+.psg-nav-actions .nav-username i { font-size: 0.95rem; }
+
+.nav-btn {
+  padding: 7px 16px;
+  border-radius: 8px;
+  font-size: 13.5px;
+  font-weight: 600;
+  cursor: pointer;
+  text-decoration: none;
+  border: none;
+  transition: all 0.2s;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+.nav-btn-signup {
+  background: var(--accent);
+  color: #fff;
+}
+.nav-btn-signup:hover { background: var(--accent-dark); color: #fff; text-decoration: none; }
+.nav-btn-signin {
+  background: rgba(255,255,255,0.15);
+  color: #fff;
+  border: 1px solid rgba(255,255,255,0.3);
+}
+.nav-btn-signin:hover { background: rgba(255,255,255,0.28); color: #fff; text-decoration: none; }
+.nav-btn-logout {
+  background: rgba(244,63,94,0.15);
+  color: #fda4af;
+  border: 1px solid rgba(244,63,94,0.3);
+}
+.nav-btn-logout:hover { background: rgba(244,63,94,0.3); color: #fff; text-decoration: none; }
+
+/* ── Modal overrides ── */
+.modal-content {
+  border-radius: 16px;
+  border: none;
+  box-shadow: 0 24px 60px rgba(0,0,0,0.15);
+  overflow: hidden;
+}
+.modal-header {
+  background: var(--primary);
+  color: #fff;
+  border-bottom: none;
+  padding: 1.25rem 1.5rem;
+}
+.modal-title { font-weight: 700; font-size: 1.1rem; }
+.btn-close { color: #fff; opacity: 0.8; }
+.modal-body { padding: 1.75rem; }
+.modal-body .form-control {
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  padding: 10px 14px;
+  font-size: 14px;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+.modal-body .form-control:focus {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(124,58,237,0.1);
+}
+.modal-body .form-label { font-weight: 600; font-size: 13px; color: var(--muted); margin-bottom: 4px; }
+.modal-body .btn-primary {
+  background: var(--primary);
+  border: none;
+  border-radius: 8px;
+  padding: 10px 24px;
+  font-weight: 600;
+  width: 100%;
+  margin-top: 4px;
+}
+.modal-body .btn-primary:hover { background: var(--primary-dark); }
 </style>
 
 {% include 'signin.html' %}
 {% include 'signup.html' %}
 
-<nav class="navbar">
-    <div class="logo-container">
-        <a href="/index">ProStrike Gears</a>
-    </div>
+<nav class="psg-nav">
+  <a class="brand" href="/index">ProStrike <span>Gears</span></a>
 
-    <div class="search-bar">
-        <form action="/search" method="GET">
-            <input type="search" name="query" placeholder="Search" id="searchBar" oninput="showSuggestions()">
-            <button type="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
-        </form>
-        <div id="suggestions"></div>
-    </div>
+  <div class="psg-search">
+    <form action="/search" method="GET">
+      <input type="search" name="query" placeholder="Search products..." id="searchBar" oninput="showSuggestions()" autocomplete="off">
+      <button type="submit"><i class="fas fa-search"></i></button>
+    </form>
+    <div id="suggestions"></div>
+  </div>
 
+  <div class="psg-nav-actions">
+    <a class="nav-cart" href="/cart" title="Cart">
+      <i class="fas fa-shopping-cart"></i>
+    </a>
     {% if session.get('logged_in') %}
-    <div class="nav-links">
-        <div class="cart">
-            <a href="/cart"><i class="fas fa-shopping-cart"></i></a>
-        </div>
-        <div class="user" onclick="directUser()">
-            <i class="fa-solid fa-user"></i>
-            <span >{{ session['username'] }}</span>
-        </div>
-        <a class="logout" href="/logout">Logout</a>
-    </div>
+      <a class="nav-username" href="/detail">
+        <i class="fas fa-user-circle"></i> {{ session['username'] }}
+      </a>
+      <a class="nav-btn nav-btn-logout" href="/logout">Logout</a>
     {% else %}
-    <div class="nav-links">
-        <div class="cart">
-            <a href="/cart"><i class="fas fa-shopping-cart"></i></a>
-        </div>
-        <a class="signup" href="#" data-toggle="modal" data-target="#signupModal">Sign Up</a>
-        <a class="signin" href="#" data-toggle="modal" data-target="#signinModal">Sign In</a>
-    </div>
+      <a class="nav-btn nav-btn-signup" href="#" data-toggle="modal" data-target="#signupModal">Sign Up</a>
+      <a class="nav-btn nav-btn-signin" href="#" data-toggle="modal" data-target="#signinModal">Sign In</a>
     {% endif %}
+  </div>
 </nav>
 
 <script>
 function showSuggestions() {
-    var query = document.getElementById('searchBar').value;
-    console.log("Value is: ", query);
-    if (query.length >= 1) {
-        fetch(`/suggestions?query=${query}`)
-            .then(response => response.json())
-            .then(data => {
-                let suggestionsDiv = document.getElementById('suggestions');
-                suggestionsDiv.innerHTML = '';
-                if (data.suggestions.length > 0) {
-                    data.suggestions.forEach(function(suggestion) {
-                        var suggestionElement = document.createElement('div');
-                        suggestionElement.textContent = suggestion;
-                        suggestionElement.classList.add('suggestion-item');
-                        suggestionElement.addEventListener('click', function() {
-                            document.getElementById('searchBar').value = suggestion;
-                            suggestionsDiv.innerHTML = '';
-                            suggestionsDiv.style.display = 'none';
-                        });
-                        suggestionsDiv.appendChild(suggestionElement);
-                    });
-                    suggestionsDiv.style.display = 'block';
-                } else {
-                    suggestionsDiv.style.display = 'none';
-                }
-            });
-    } else {
-        document.getElementById('suggestions').style.display = 'none';
-    }
+  var query = document.getElementById('searchBar').value;
+  if (query.length >= 1) {
+    fetch(`/suggestions?query=${encodeURIComponent(query)}`)
+      .then(r => r.json())
+      .then(data => {
+        let box = document.getElementById('suggestions');
+        box.innerHTML = '';
+        if (data.suggestions && data.suggestions.length > 0) {
+          data.suggestions.forEach(s => {
+            let d = document.createElement('div');
+            d.className = 'suggestion-item';
+            d.textContent = s;
+            d.onclick = () => {
+              document.getElementById('searchBar').value = s;
+              box.style.display = 'none';
+            };
+            box.appendChild(d);
+          });
+          box.style.display = 'block';
+        } else {
+          box.style.display = 'none';
+        }
+      }).catch(() => {});
+  } else {
+    document.getElementById('suggestions').style.display = 'none';
+  }
 }
-
-function directUser() {
-    window.location.href = 'detail';
-}
+document.addEventListener('click', e => {
+  if (!e.target.closest('.psg-search')) {
+    document.getElementById('suggestions').style.display = 'none';
+  }
+});
 </script>

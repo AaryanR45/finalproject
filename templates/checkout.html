@@ -1,180 +1,122 @@
-<!--<!doctype html>-->
-<!--<html lang="en">-->
-<!--<head>-->
-<!--    <meta charset="UTF-8">-->
-<!--    <meta name="viewport" content="width=device-width, initial-scale=1">-->
-<!--    <title>Document</title>-->
-<!--    <style>-->
-<!--        .purchase{-->
-<!--            margin-left:30%;-->
-<!--            display:flex;-->
-<!--        }-->
-<!--        .purchase-img{-->
-<!--            margin-right:30px;-->
-<!--        }-->
-<!--          a{-->
-<!--            text-decoration:none-->
-<!--            color:black;-->
-<!--        }-->
-<!--        .button-link {-->
-<!--            position:absolute;-->
-<!--            display:flex;-->
-<!--            flex-direction:column;-->
-<!--            width:80px;-->
-<!--            margin-left:30px;-->
-<!--            top:20vh;-->
-<!--        }-->
-<!--        .button-link button{-->
-<!--            border-radius:8px;-->
-<!--            margin-top:20px;-->
-<!--        }-->
-<!--        .button-link a{-->
-<!--            color:black;-->
-<!--        }-->
-<!--         .button-link a:hover{-->
-<!--            color:black;-->
-<!--            text-decoration:none;-->
-
-<!--        }-->
-<!--    </style>-->
-<!--</head>-->
-<!--<body>-->
-
-<!--        {% if info  %}-->
-<!--          <div class="purchase">-->
-<!--              <div class="purchase-img">-->
-<!--                  <img src="{{info.image}}" alt="{{info.pname}}" height="300px" width="200px">-->
-<!--              </div>-->
-<!--               <div class="purchase-info">-->
-<!--                    <h1>Thank You For your purchase!!!</h1>-->
-<!--                    <p><strong> Id:</strong>  {{info.pid}}</p>-->
-<!--                    <p><strong> Name:</strong>  {{info.pname}}</p>-->
-<!--                    <p><strong> Quantity:</strong>  {{info.quantity}}</p>-->
-<!--                    <p><strong> Price:</strong>  {{info.price}}</p>-->
-<!--               </div>-->
-
-<!--          </div>-->
-<!--            <div class="button-link">-->
-<!--                <button>-->
-<!--                    <a href="index" >Back to Products</a>-->
-<!--                </button>-->
-<!--                <button>-->
-<!--                    <a href="cart" >Cart</a>-->
-<!--                </button>-->
-
-<!--                <button>-->
-<!--                    <a href="detail" >View Details</a>-->
-<!--                </button>-->
-<!--            </div>-->
-<!--        {% else %}-->
-<!--            <p>No purchase information available. Please try again.</p>-->
-<!--        {%endif%}-->
-
-<!--</body>-->
-<!--</html>-->
-
-
 <!doctype html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Checkout</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-        }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Checkout — ProStrike Gears</title>
+  <style>
+    .checkout-wrap { max-width: 820px; margin: 3rem auto; padding: 0 1.5rem; }
+    .step-bar {
+      display: flex; align-items: center; justify-content: center;
+      gap: 8px; margin-bottom: 2rem;
+    }
+    .step { display: flex; align-items: center; gap: 6px; font-size: 13px; font-weight: 600; color: #6b7280; }
+    .step.done { color: #7c3aed; }
+    .step-dot {
+      width: 28px; height: 28px; border-radius: 50%;
+      background: #ede9fe; color: #7c3aed; font-size: 12px; font-weight: 800;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .step.done .step-dot { background: #7c3aed; color: #fff; }
+    .step-line { flex: 1; height: 2px; background: #ede9fe; max-width: 60px; }
 
-        h1 {
-            text-align: center;
-            font-size: 28px;
-            margin-bottom: 20px;
-        }
+    .checkout-card {
+      background: #fff; border-radius: 20px;
+      border: 1px solid #ede9fe;
+      padding: 2.5rem;
+      box-shadow: 0 4px 20px rgba(124,58,237,0.07);
+      display: flex; gap: 2.5rem; flex-wrap: wrap;
+    }
+    .checkout-img img {
+      width: 280px; height: 280px; object-fit: cover;
+      border-radius: 16px; border: 2px solid #ede9fe;
+    }
+    .checkout-details { flex: 1; min-width: 240px; }
+    .checkout-details h2 { font-size: 1.4rem; font-weight: 800; color: #1e1b2e; margin-bottom: 1.5rem; letter-spacing: -0.4px; }
+    .detail-row {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 10px 0; border-bottom: 1px solid #f3f4f6;
+      font-size: 14px;
+    }
+    .detail-row:last-of-type { border-bottom: none; }
+    .detail-row .label { color: #6b7280; font-weight: 500; }
+    .detail-row .value { font-weight: 700; color: #1e1b2e; }
+    .total-row .value { font-size: 1.4rem; color: #7c3aed; font-weight: 900; }
 
-        .checkout-info {
-            display: flex;
-            align-items: center;
-            flex-wrap: wrap;
-            width: 900px;
-            padding: 20px;
-            border-radius: 8px;
-            margin: 0 auto;
-            border: 1px solid black;
-            border-radius: 8px;
-        }
+    .pay-btn {
+      margin-top: 1.5rem; width: 100%;
+      padding: 15px; background: #22c55e; color: #fff;
+      border: none; border-radius: 12px; font-weight: 800; font-size: 16px;
+      cursor: pointer; transition: 0.2s;
+      display: flex; align-items: center; justify-content: center; gap: 10px;
+    }
+    .pay-btn:hover { background: #16a34a; transform: translateY(-1px); }
 
-        .checkout-image {
-            flex: 1;
-            text-align: center;
-        }
-
-        .checkout-image img {
-            height: 400px;
-            width: 400px;
-            border-radius: 20px;
-            object-fit: cover;
-
-        }
-
-        .checkout-product {
-            flex: 1;
-            padding-left: 20px;
-        }
-
-        .checkout-product p {
-            font-size: 18px;
-            margin-bottom: 10px;
-        }
-
-        .checkout-form {
-            text-align: center;
-            margin-top: 20px;
-        }
-
-        .checkout-button {
-            padding: 12px 20px;
-            font-size: 18px;
-            border: none;
-            cursor: pointer;
-            border-radius: 5px;
-            transition: transform 0.2s;
-        }
-    </style>
+    .esewa-note {
+      margin-top: 1rem; text-align: center;
+      font-size: 12.5px; color: #6b7280;
+      display: flex; align-items: center; justify-content: center; gap: 6px;
+    }
+    .esewa-note i { color: #22c55e; }
+  </style>
 </head>
 <body>
+{% include 'heads.html' %}
 
-<h1>Checkout</h1>
+<div class="checkout-wrap">
+  <div class="step-bar">
+    <div class="step done"><div class="step-dot">1</div> Cart</div>
+    <div class="step-line"></div>
+    <div class="step done"><div class="step-dot">2</div> Review</div>
+    <div class="step-line"></div>
+    <div class="step"><div class="step-dot" style="background:#f3f4f6;color:#6b7280;">3</div> Payment</div>
+  </div>
 
-<div class="checkout-info">
-    <div class="checkout-image">
-        <img src="{{ esewa_info['image'] }}" alt="{{ esewa_info['pname'] }}">
+  <div class="checkout-card">
+    <div class="checkout-img">
+      <img src="{{ esewa_info['image'] }}" alt="{{ esewa_info['pname'] }}"
+           onerror="this.style.display='none'">
     </div>
+    <div class="checkout-details">
+      <h2>Order Summary</h2>
+      <div class="detail-row">
+        <span class="label">Product</span>
+        <span class="value">{{ esewa_info['pname'] }}</span>
+      </div>
+      <div class="detail-row">
+        <span class="label">Quantity</span>
+        <span class="value">{{ esewa_info['quantity'] }}</span>
+      </div>
+      <div class="detail-row">
+        <span class="label">Tax</span>
+        <span class="value">Rs 0</span>
+      </div>
+      <div class="detail-row total-row">
+        <span class="label">Total</span>
+        <span class="value">Rs {{ esewa_info['price'] }}</span>
+      </div>
 
-    <div class="checkout-product">
-        <p><strong>Product Name:</strong> {{ esewa_info['pname'] }}</p>
-        <p><strong>Quantity:</strong> {{ esewa_info['quantity'] }}</p>
-        <p><strong>Total Price:</strong> {{ esewa_info['price'] }}</p>
+      <form action="https://rc-epay.esewa.com.np/api/epay/main/v2/form" method="POST">
+        <input type="hidden" name="amount" value="{{ esewa_info['amount'] }}">
+        <input type="hidden" name="tax_amount" value="0">
+        <input type="hidden" name="total_amount" value="{{ esewa_info['total_amount'] }}">
+        <input type="hidden" name="transaction_uuid" value="{{ esewa_info['transaction_uuid'] }}">
+        <input type="hidden" name="product_code" value="{{ esewa_info['product_code'] }}">
+        <input type="hidden" name="product_service_charge" value="0">
+        <input type="hidden" name="product_delivery_charge" value="0">
+        <input type="hidden" name="success_url" value="{{ esewa_info['success_url'] }}">
+        <input type="hidden" name="failure_url" value="{{ esewa_info['failure_url'] }}">
+        <input type="hidden" name="signed_field_names" value="{{ esewa_info['signed_field_names'] }}">
+        <input type="hidden" name="signature" value="{{ esewa_info['signature'] }}">
+        <button type="submit" class="pay-btn">
+          <i class="fas fa-lock"></i> Pay with eSewa
+        </button>
+      </form>
+      <div class="esewa-note"><i class="fas fa-shield-alt"></i> Secured by eSewa — Nepal's trusted payment gateway</div>
     </div>
+  </div>
 </div>
 
-<form class="checkout-form" action="https://rc-epay.esewa.com.np/api/epay/main/v2/form" method="POST">
-    <input type="hidden" name="amount" value="{{ esewa_info['amount'] }}">
-    <input type="hidden" name="tax_amount" value="0">
-    <input type="hidden" name="total_amount" value="{{ esewa_info['total_amount'] }}">
-    <input type="hidden" name="transaction_uuid" value="{{ esewa_info['transaction_uuid'] }}">
-    <input type="hidden" name="product_code" value="{{ esewa_info['product_code'] }}">
-    <input type="hidden" name="product_service_charge" value="0">
-    <input type="hidden" name="product_delivery_charge" value="0">
-    <input type="hidden" name="success_url" value="{{ esewa_info['success_url'] }}">
-    <input type="hidden" name="failure_url" value="{{ esewa_info['failure_url'] }}">
-    <input type="hidden" name="signed_field_names" value="{{ esewa_info['signed_field_names'] }}">
-    <input type="hidden" name="signature" value="{{ esewa_info['signature'] }}">
-
-    <button class="checkout-button" type="submit">
-        Proceed to Payment
-    </button>
-</form>
-
+{% include 'foots.html' %}
 </body>
-
 </html>

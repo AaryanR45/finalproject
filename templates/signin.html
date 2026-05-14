@@ -1,38 +1,29 @@
-<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4//css/all.min.css">
-
-
-
-
-
-<div class="modal fade" id="signinModal" tabindex="-1" aria-labelledby="signinModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
+<div class="modal fade" id="signinModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="signinModalLabel">Sign In</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" data-dismiss="modal" aria-label="Close"><i class="fa-solid fa-xmark"></i></button>
+        <h5 class="modal-title"><i class="fas fa-sign-in-alt me-2"></i> Sign In</h5>
+        <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close" style="background:none;border:none;color:#fff;font-size:1.2rem;cursor:pointer;">
+          <i class="fas fa-times"></i>
+        </button>
       </div>
       <div class="modal-body">
         <form action="/signin" method="post">
           <div class="mb-3">
-            <label for="signinUsername" class="form-label">Username</label>
-            <input type="text" class="form-control" id="signinUsername" name="signinUsername" required>
+            <label class="form-label">Username</label>
+            <input type="text" class="form-control" name="signinUsername" placeholder="Enter your username" required>
           </div>
           <div class="mb-3">
-            <label for="signinPassword" class="form-label">Password</label>
-            <input type="password" class="form-control" id="signinPassword" name="signinPassword" required>
+            <label class="form-label">Password</label>
+            <input type="password" class="form-control" name="signinPassword" placeholder="Enter your password" required>
           </div>
           <button type="submit" class="btn btn-primary">Sign In</button>
+          <p style="text-align:center;margin-top:1rem;font-size:13px;color:#6b7280;">
+            Don't have an account?
+            <a href="#" style="color:#7c3aed;font-weight:600;" data-dismiss="modal" data-toggle="modal" data-target="#signupModal">Sign Up</a>
+          </p>
         </form>
       </div>
     </div>
   </div>
 </div>
-
-
-<script>
-
-</script>
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-<script src="https://code.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>

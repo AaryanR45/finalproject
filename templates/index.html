@@ -1,78 +1,191 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>ProStrike Gears</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4//css/all.min.css">
-    <link rel="stylesheet" href="css/style.css">
-    <style>
-        body {
-        font-family: Arial, sans-serif;
-            background-color: #f8f9fa;
-        }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ProStrike Gears — Nepal's Sports Store</title>
+  <style>
+    .hero {
+      background: linear-gradient(135deg, #4c1d95 0%, #7c3aed 60%, #a855f7 100%);
+      color: #fff;
+      padding: 5rem 2rem;
+      text-align: center;
+    }
+    .hero h1 { font-size: 2.8rem; font-weight: 800; margin-bottom: 1rem; letter-spacing: -1px; }
+    .hero h1 span { color: #f9a8d4; }
+    .hero p { font-size: 1.1rem; opacity: 0.85; max-width: 520px; margin: 0 auto 2rem; }
+    .hero-cta {
+      display: inline-flex; align-items: center; gap: 10px;
+      background: #f43f5e; color: #fff; padding: 14px 32px;
+      border-radius: 10px; font-weight: 700; font-size: 1rem;
+      text-decoration: none; transition: 0.2s;
+    }
+    .hero-cta:hover { background: #be123c; color: #fff; text-decoration: none; transform: translateY(-2px); }
 
-        .container {
-            margin-top: 50px;
-        }
-        .nav-link:hover {
-            color: red !important;
-        }
-        .nav-link.btn {
-            border-radius: 5px;
-        }
+    .toast-msg {
+      position: fixed; top: 80px; left: 50%; transform: translateX(-50%);
+      background: #7c3aed; color: #fff; padding: 12px 28px;
+      border-radius: 10px; font-weight: 600; font-size: 14px;
+      box-shadow: 0 8px 24px rgba(124,58,237,0.3);
+      z-index: 9999; animation: slideDown 0.3s ease;
+    }
+    @keyframes slideDown { from { opacity:0; top:60px; } to { opacity:1; top:80px; } }
 
+    .section-title {
+      text-align: center;
+      margin: 3rem 0 1.5rem;
+    }
+    .section-title h2 {
+      font-size: 1.7rem; font-weight: 800; color: #1e1b2e; letter-spacing: -0.5px;
+    }
+    .section-title p { color: #6b7280; font-size: 14.5px; }
+    .section-title .pill {
+      display: inline-block; background: #ede9fe; color: #7c3aed;
+      font-size: 12px; font-weight: 700; padding: 3px 12px;
+      border-radius: 999px; margin-bottom: 8px; letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
 
- </style>
+    .products-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 20px;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 1.5rem 3rem;
+    }
+
+    .pcard {
+      background: #fff;
+      border-radius: 14px;
+      overflow: hidden;
+      border: 1px solid #ede9fe;
+      transition: transform 0.2s, box-shadow 0.2s;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+    }
+    .pcard:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 12px 32px rgba(124,58,237,0.13);
+    }
+    .pcard img {
+      width: 100%; height: 200px; object-fit: cover;
+      border-bottom: 2px solid #ede9fe;
+      transition: opacity 0.2s;
+    }
+    .pcard:hover img { opacity: 0.92; }
+    .pcard-body { padding: 14px 16px; flex: 1; display: flex; flex-direction: column; }
+    .pcard-name {
+      font-weight: 700; font-size: 14px; color: #1e1b2e;
+      margin-bottom: 4px; line-height: 1.4;
+      display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
+    }
+    .pcard-brand { font-size: 12.5px; color: #7c3aed; font-weight: 600; margin-bottom: 6px; }
+    .pcard-price { font-size: 15px; font-weight: 800; color: #1e1b2e; margin-top: auto; margin-bottom: 10px; }
+    .pcard-rating { font-size: 12px; color: #f59e0b; margin-bottom: 8px; }
+
+    .btn-cart {
+      width: 100%; padding: 9px;
+      background: #f43f5e; color: #fff; border: none;
+      border-radius: 8px; font-weight: 700; font-size: 13px;
+      cursor: pointer; transition: background 0.2s;
+      display: flex; align-items: center; justify-content: center; gap: 7px;
+    }
+    .btn-cart:hover { background: #be123c; }
+
+    .cats-strip {
+      display: flex; gap: 10px; justify-content: center;
+      flex-wrap: wrap; padding: 0.5rem 1.5rem 1.5rem;
+    }
+    .cat-chip {
+      background: #fff; border: 1.5px solid #c4b5fd;
+      color: #7c3aed; padding: 7px 18px; border-radius: 999px;
+      font-size: 13px; font-weight: 600; text-decoration: none;
+      cursor: pointer; transition: all 0.2s;
+    }
+    .cat-chip:hover, .cat-chip.active {
+      background: #7c3aed; color: #fff; border-color: #7c3aed; text-decoration: none;
+    }
+  </style>
 </head>
-
 <body>
-
 {% include 'heads.html' %}
 
-
-
 {% if message %}
-<h1 id="messages" style="color:red; margin-left:45%; margin-bottom:10px;" >{{message}} {{value}}</h1>
+<div class="toast-msg" id="toast">{{ message }} {% if value %}&nbsp;<strong>{{ value }}</strong>{% endif %}</div>
 {% endif %}
 
-<h1 style="margin-left:45%;margin-bottom:30px;margin-top:30px;">Top Trending </h1>
+<!-- Hero -->
+<div class="hero">
+  <h1>Nepal's <span>Sports Gear</span><br>Destination</h1>
+  <p>Top-rated cricket, football, basketball equipment — with AI-powered recommendations just for you.</p>
+  <a href="/categories" class="hero-cta"><i class="fas fa-th"></i> Browse Categories</a>
+</div>
 
+<!-- Category chips -->
+<div class="section-title" style="margin-bottom:0.5rem;">
+  <span class="pill">Shop by Sport</span>
+</div>
+<div class="cats-strip">
+  <a href="/categories" class="cat-chip">All</a>
+  <a href="#" onclick="filterCat('Cricket')" class="cat-chip">🏏 Cricket</a>
+  <a href="#" onclick="filterCat('Football')" class="cat-chip">⚽ Football</a>
+  <a href="#" onclick="filterCat('Basketball')" class="cat-chip">🏀 Basketball</a>
+  <a href="#" onclick="filterCat('Jersey')" class="cat-chip">👕 Jersey</a>
+</div>
 
+<!-- Trending Products -->
+<div class="section-title">
+  <span class="pill">Trending Now</span>
+  <h2>Top Picks This Week</h2>
+  <p>Hand-curated products loved by athletes across Nepal</p>
+</div>
 
-{% include 'signup.html' %}
-
-{% include 'signin.html' %}
-
-{% include 'fetch.html' %}
-
-
-
-
-
+<div class="products-grid">
+  {% for product in data %}
+  <div class="pcard" onclick="window.location.href='{{ url_for('product_detail', pid=product.pid) }}'">
+    <img src="{{ product['imageurl'].split('|')[0].strip() }}"
+         alt="{{ product.pname }}"
+         onerror="this.src='{{ (product['imageurl'].split('|')[1].strip() if '|' in product['imageurl'] else '') }}'">
+    <div class="pcard-body">
+      <div class="pcard-brand">{{ product.brand }}</div>
+      <div class="pcard-name">{{ product.pname }}</div>
+      <div class="pcard-rating">
+        {% for i in range(product.rating | int) %}★{% endfor %}{% for i in range(5 - (product.rating | int)) %}☆{% endfor %}
+        <span style="color:#6b7280;"> ({{ product.reviewcount | int }})</span>
+      </div>
+      <div class="pcard-price">Rs {{ product.price }}</div>
+      <form action="/cart" method="post" onclick="event.stopPropagation()">
+        <input type="hidden" name="pid" value="{{ product.pid }}">
+        <input type="hidden" name="pname" value="{{ product.pname }}">
+        <input type="hidden" name="image" value="{{ product['imageurl'].split('|')[0].strip() }}">
+        <input type="hidden" name="price" value="{{ product.price }}">
+        <button type="submit" class="btn-cart"><i class="fas fa-shopping-cart"></i> Add to Cart</button>
+      </form>
+    </div>
+  </div>
+  {% endfor %}
+</div>
 
 {% include 'foots.html' %}
-</body>
-<script>
-  document.addEventListener("DOMContentLoaded", function() {
-             setTimeout(function() {
-            const messageElement = document.getElementById("message");
-            if (messageElement) {
-                messageElement.style.display = "none";
-            }
-        }, 2000);
-    });
-    document.addEventListener("DOMContentLoaded", function() {
-             setTimeout(function() {
-            const messageElement = document.getElementById("messages");
-            if (messageElement) {
-                messageElement.style.display = "none";
-            }
-        }, 2000);
-    });
-</script>
 
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-<script src="https://code.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script>
+setTimeout(() => {
+  const t = document.getElementById('toast');
+  if (t) t.style.display = 'none';
+}, 3000);
+
+function filterCat(cat) {
+  const form = document.createElement('form');
+  form.method = 'POST';
+  form.action = '/showinfo';
+  const inp = document.createElement('input');
+  inp.type = 'hidden'; inp.name = 'category'; inp.value = cat;
+  form.appendChild(inp);
+  document.body.appendChild(form);
+  form.submit();
+}
+</script>
+</body>
 </html>

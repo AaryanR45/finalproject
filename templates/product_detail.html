@@ -1,140 +1,184 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ product['Name'] }} - Product Detail</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
-            margin: 0;
-            padding: 0;
-        }
-        .container { width: 80%; margin: 20px auto; }
-        .product-detail { display: flex; flex-wrap: wrap; gap: 20px; }
-        .product-detail img {
-            width: 300px; height: 300px;
-            object-fit: cover; border-radius: 8px;
-        }
-        .product-info { max-width: 600px; }
-        .product-info h3 { margin: 0; font-size: 24px; }
-        .product-info p { margin: 10px 0; font-size: 16px; }
-        .back-btn {
-            margin-top: 20px; padding: 10px 15px; border-radius: 4px;
-            background-color: #8b5cf6; color: white; text-decoration: none; transition: 0.3s;
-        }
-        .back-btn:hover { background-color: white; color: #8b5cf6; transform: scale(1.05); }
-        .cart-button {
-            margin-top: 15px; padding: 10px 15px; border-radius: 4px;
-            background-color: #ff4081; color: white; border: none; transition: 0.3s;
-        }
-        .cart-button:hover { background-color: #ff80b2; color: black; transform: scale(1.05); }
-        .recommended-products {
-            display: flex; flex-wrap: wrap; justify-content: space-evenly; gap: 10px; margin-top: 30px;
-        }
-        .recommend-info {
-            width: 20%; cursor: pointer; transition: 0.3s;
-        }
-        .recommend-info:hover {
-            transform: translateY(-5px); box-shadow: 0px 4px 10px rgba(0,0,0,0.1);
-        }
-        .card img {
-            height: 200px; object-fit: cover; border-bottom: 2px solid #8b5cf6;
-        }
-        .similarity-score {
-            font-size: 14px; font-weight: bold; color: #000000;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{{ product['Name'] }} — ProStrike Gears</title>
+  <style>
+    .detail-wrap {
+      max-width: 1100px; margin: 2.5rem auto; padding: 0 1.5rem;
+    }
+    .breadcrumb-bar {
+      font-size: 13px; color: #6b7280; margin-bottom: 1.5rem;
+      display: flex; align-items: center; gap: 6px;
+    }
+    .breadcrumb-bar a { color: #7c3aed; text-decoration: none; font-weight: 600; }
+    .breadcrumb-bar a:hover { text-decoration: underline; }
+
+    .product-main {
+      display: flex; gap: 3rem; flex-wrap: wrap;
+      background: #fff; border-radius: 20px;
+      border: 1px solid #ede9fe;
+      padding: 2.5rem; margin-bottom: 3rem;
+      box-shadow: 0 4px 20px rgba(124,58,237,0.07);
+    }
+    .product-img-col { flex-shrink: 0; }
+    .product-img-col img {
+      width: 340px; height: 340px; object-fit: cover;
+      border-radius: 16px; border: 2px solid #ede9fe;
+    }
+    .product-info-col { flex: 1; min-width: 280px; }
+    .product-info-col .category-pill {
+      display: inline-block; background: #ede9fe; color: #7c3aed;
+      font-size: 11.5px; font-weight: 700; padding: 4px 12px;
+      border-radius: 999px; text-transform: uppercase; letter-spacing: 0.07em;
+      margin-bottom: 0.75rem;
+    }
+    .product-info-col h1 {
+      font-size: 1.7rem; font-weight: 800; color: #1e1b2e;
+      letter-spacing: -0.5px; margin-bottom: 0.4rem; line-height: 1.3;
+    }
+    .product-info-col .brand { font-size: 13.5px; color: #7c3aed; font-weight: 600; margin-bottom: 0.75rem; }
+    .rating-row { display: flex; align-items: center; gap: 8px; margin-bottom: 1rem; }
+    .stars { color: #f59e0b; font-size: 1rem; }
+    .rating-row span { font-size: 13px; color: #6b7280; }
+    .desc-text { font-size: 14.5px; color: #4b5563; line-height: 1.7; margin-bottom: 1.5rem; border-left: 3px solid #c4b5fd; padding-left: 14px; }
+    .price-big { font-size: 2rem; font-weight: 900; color: #1e1b2e; margin-bottom: 1.5rem; }
+    .price-big span { font-size: 1rem; font-weight: 500; color: #6b7280; }
+
+    .action-btns { display: flex; gap: 12px; flex-wrap: wrap; }
+    .btn-add-cart {
+      padding: 13px 28px; background: #f43f5e; color: #fff;
+      border: none; border-radius: 10px; font-weight: 700; font-size: 14.5px;
+      cursor: pointer; transition: 0.2s;
+      display: flex; align-items: center; gap: 8px;
+    }
+    .btn-add-cart:hover { background: #be123c; transform: translateY(-1px); }
+    .btn-back {
+      padding: 13px 22px; background: #ede9fe; color: #7c3aed;
+      border: none; border-radius: 10px; font-weight: 700; font-size: 14px;
+      text-decoration: none; cursor: pointer; transition: 0.2s;
+      display: flex; align-items: center; gap: 8px;
+    }
+    .btn-back:hover { background: #7c3aed; color: #fff; text-decoration: none; }
+
+    /* Recommendations */
+    .rec-section { margin-top: 1rem; }
+    .section-head { display: flex; align-items: center; gap: 12px; margin-bottom: 1.5rem; }
+    .section-head h2 { font-size: 1.3rem; font-weight: 800; color: #1e1b2e; margin: 0; }
+    .section-head .pill {
+      background: #fef3c7; color: #92400e;
+      font-size: 11px; font-weight: 700; padding: 3px 10px;
+      border-radius: 999px; text-transform: uppercase; letter-spacing: 0.07em;
+    }
+    .rec-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 16px;
+    }
+    .rcard {
+      background: #fff; border-radius: 12px; overflow: hidden;
+      border: 1px solid #ede9fe;
+      transition: transform 0.2s, box-shadow 0.2s;
+      cursor: pointer; display: flex; flex-direction: column;
+    }
+    .rcard:hover { transform: translateY(-4px); box-shadow: 0 10px 24px rgba(124,58,237,0.12); }
+    .rcard img { width: 100%; height: 170px; object-fit: cover; border-bottom: 2px solid #ede9fe; }
+    .rcard-body { padding: 12px 14px; flex: 1; display: flex; flex-direction: column; }
+    .rcard-brand { font-size: 11px; color: #7c3aed; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 3px; }
+    .rcard-name { font-weight: 700; font-size: 13px; color: #1e1b2e; margin-bottom: 4px; line-height: 1.4; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+    .rcard-rating { font-size: 11.5px; color: #f59e0b; margin-bottom: 4px; }
+    .rcard-price { font-size: 14px; font-weight: 800; color: #1e1b2e; margin-top: auto; margin-bottom: 8px; }
+    .similarity-badge {
+      display: inline-block; background: #dcfce7; color: #166534;
+      font-size: 10.5px; font-weight: 700; padding: 2px 8px;
+      border-radius: 999px; margin-bottom: 8px;
+    }
+    .btn-cart-sm {
+      width: 100%; padding: 7px; background: #f43f5e; color: #fff;
+      border: none; border-radius: 7px; font-weight: 700; font-size: 12.5px;
+      cursor: pointer; transition: background 0.2s;
+      display: flex; align-items: center; justify-content: center; gap: 6px;
+    }
+    .btn-cart-sm:hover { background: #be123c; }
+  </style>
 </head>
 <body>
-    {% include 'heads.html' %}
-    {% include 'signup.html' %}
-    {% include 'signin.html' %}
+{% include 'heads.html' %}
+{% include 'signin.html' %}
+{% include 'signup.html' %}
 
-    <div class="container">
-        <div class="product-detail">
-            <div class="product-img">
-                <img src="{{ product['ImageURL'].split('|')[0].strip() }}"
-                     data-alt="{{ product['ImageURL'].split('|')[1].strip() if '|' in product['ImageURL'] else 'static/img/img_1.jpg' }}"
-                     alt="{{ product['Name'] }}">
-            </div>
-            <div class="product-info">
-                <form action="{{ url_for('cart') }}" method="post">
-                    <h3>{{ product['Name'] }}</h3>
-                    <p><strong>Brand:</strong> {{ product['Brand'] }}</p>
-                    <p><strong>Rating:</strong> {{ product['Rating'] }}</p>
-                    <p><strong>Review Count:</strong> {{ product['ReviewCount'] }}</p>
-                    <p><strong>Description:</strong> {{ product['Description'].split('.')[0].strip() }}</p>
-                    <p><strong>Price:</strong> Rs {{ product['Price'] }}</p>
+<div class="detail-wrap">
+  <div class="breadcrumb-bar">
+    <a href="{{ url_for('index') }}"><i class="fas fa-home"></i> Home</a>
+    <span>/</span>
+    <span>{{ product['Name'] }}</span>
+  </div>
 
-                    <a href="{{ url_for('index') }}" class="back-btn">Home</a>
-                    
-                    <!-- ✅ Always use productId -->
-                    <input type="hidden" name="pid" value="{{ product['productId'] }}">
-                    <input type="hidden" name="pname" value="{{ product['Name'] }}">
-                    <input type="hidden" name="image" value="{{ product['ImageURL'].split('|')[0].strip() }}">
-                    <input type="hidden" name="price" value="{{ product['Price'] }}">
-                    <button type="submit" class="cart-button"><i class="fas fa-shopping-cart fa-lg"></i></button>
-                </form>
-            </div>
-        </div>
-
-        {% if recommendations1 %}
-        <h3 class="mt-5 mb-3">Recommended Products</h3>
-        <div class="recommended-products">
-            {% for rec in recommendations1 %}
-            <div class="recommend-info" data-href="{{ url_for('product_detail', pid=rec.ID) }}">
-                <div class="card">
-                    <img src="{{ rec.ImageURL.split('|')[0].strip() }}"
-                         data-alt="{{ rec.ImageURL.split('|')[1].strip() if '|' in rec.ImageURL else 'static/img/img_1.jpg' }}"
-                         alt="{{ rec.Name }}">
-                    <div class="card-body">
-                        <h5 class="card-title">{{ rec.Name }}</h5>
-                        <p><strong>Brand:</strong> {{ rec.Brand }}</p>
-                        <p><strong>Rating:</strong> {{ rec.Rating }}</p>
-                        <p><strong>Price:</strong> Rs {{ rec.Price }}</p>
-                        <p class="similarity-score">Similarity: {{ rec.Similarity }}%</p>
-
-                        <form action="{{ url_for('cart') }}" method="post">
-                            <!-- ✅ Keep consistent -->
-                            <input type="hidden" name="pid" value="{{ rec.ID }}">
-                            <input type="hidden" name="pname" value="{{ rec.Name }}">
-                            <input type="hidden" name="image" value="{{ rec.ImageURL.split('|')[0].strip() }}">
-                            <input type="hidden" name="price" value="{{ rec.Price }}">
-                            <button type="submit" class="cart-button"><i class="fas fa-shopping-cart fa-lg"></i></button>
-                        </form>
-                    </div>
-                </div>
-            </div>
-            {% endfor %}
-        </div>
-        {% else %}
-        <p>No recommendations available.</p>
-        {% endif %}
+  <div class="product-main">
+    <div class="product-img-col">
+      <img src="{{ product['ImageURL'].split('|')[0].strip() }}"
+           alt="{{ product['Name'] }}"
+           onerror="this.src='{{ (product['ImageURL'].split('|')[1].strip() if '|' in product['ImageURL'] else '') }}'">
     </div>
+    <div class="product-info-col">
+      <span class="category-pill">{{ product.get('Category', 'Sports') }}</span>
+      <h1>{{ product['Name'] }}</h1>
+      <div class="brand">by {{ product['Brand'] }}</div>
+      <div class="rating-row">
+        <span class="stars">
+          {% for i in range(product['Rating'] | int) %}★{% endfor %}{% for i in range(5 - (product['Rating'] | int)) %}☆{% endfor %}
+        </span>
+        <span>{{ product['Rating'] }} / 5 &nbsp;·&nbsp; {{ product['ReviewCount'] | int }} reviews</span>
+      </div>
+      <p class="desc-text">{{ product['Description'].split('.')[0].strip() }}.</p>
+      <div class="price-big">Rs {{ product['Price'] }} <span>/ unit</span></div>
+      <div class="action-btns">
+        <a href="{{ url_for('index') }}" class="btn-back"><i class="fas fa-arrow-left"></i> Back</a>
+        <form action="{{ url_for('cart') }}" method="post" style="margin:0">
+          <input type="hidden" name="pid" value="{{ product['ID'] }}">
+          <input type="hidden" name="pname" value="{{ product['Name'] }}">
+          <input type="hidden" name="image" value="{{ product['ImageURL'].split('|')[0].strip() }}">
+          <input type="hidden" name="price" value="{{ product['Price'] }}">
+          <button type="submit" class="btn-add-cart"><i class="fas fa-shopping-cart"></i> Add to Cart</button>
+        </form>
+      </div>
+    </div>
+  </div>
 
-    {% include 'foots.html' %}
+  {% if recommendations1 %}
+  <div class="rec-section">
+    <div class="section-head">
+      <span class="pill">✨ AI Recommended</span>
+      <h2>Similar Products You'll Love</h2>
+    </div>
+    <div class="rec-grid">
+      {% for rec in recommendations1 %}
+      <div class="rcard" onclick="window.location.href='{{ url_for('product_detail', pid=rec.ID) }}'">
+        <img src="{{ rec.ImageURL.split('|')[0].strip() }}"
+             alt="{{ rec.Name }}"
+             onerror="this.src='{{ (rec.ImageURL.split('|')[1].strip() if '|' in rec.ImageURL else '') }}'">
+        <div class="rcard-body">
+          <div class="rcard-brand">{{ rec.Brand }}</div>
+          <div class="rcard-name">{{ rec.Name }}</div>
+          <div class="rcard-rating">{{ rec.Rating }} ★</div>
+          <span class="similarity-badge">{{ rec.Similarity }}% match</span>
+          <div class="rcard-price">Rs {{ rec.Price }}</div>
+          <form action="{{ url_for('cart') }}" method="post" onclick="event.stopPropagation()">
+            <input type="hidden" name="pid" value="{{ rec.ID }}">
+            <input type="hidden" name="pname" value="{{ rec.Name }}">
+            <input type="hidden" name="image" value="{{ rec.ImageURL.split('|')[0].strip() }}">
+            <input type="hidden" name="price" value="{{ rec.Price }}">
+            <button type="submit" class="btn-cart-sm"><i class="fas fa-shopping-cart"></i> Add to Cart</button>
+          </form>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+  {% endif %}
+</div>
 
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    <script>
-        // Redirect on recommended product click
-        document.querySelectorAll('.recommend-info').forEach(el => {
-            el.addEventListener('click', () => {
-                window.location.href = el.dataset.href;
-            });
-        });
-
-        // Fix broken images
-        document.querySelectorAll('img[data-alt]').forEach(img => {
-            img.onerror = function() {
-                img.src = img.dataset.alt;
-            };
-        });
-    </script>
+{% include 'foots.html' %}
 </body>
 </html>

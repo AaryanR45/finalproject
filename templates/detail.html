@@ -1,91 +1,103 @@
 <!doctype html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Your Purchases</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.1/css/all.min.css" 
-          integrity="sha512-5Hs3dF2AEPkpNAR7UiOHba+lRSJNeM2ECkwxUIxC1Q/FLycGTbNapWXB4tP889k5T5Ju8fs4b1P5z/iB4nMfSQ==" 
-          crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <style>
-        * {
-            font-family: Arial, sans-serif;
-        }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Purchase History — ProStrike Gears</title>
+  <style>
+    .history-wrap { max-width: 960px; margin: 2.5rem auto; padding: 0 1.5rem; }
+    .page-heading { font-size: 1.6rem; font-weight: 800; color: #1e1b2e; margin-bottom: 0.25rem; letter-spacing: -0.5px; }
+    .page-sub { color: #6b7280; font-size: 14px; margin-bottom: 2rem; }
+    .page-heading span { color: #7c3aed; }
 
-        .container {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: space-around;
-            margin: 20px;
-            gap: 20px;
-        }
+    .back-link {
+      display: inline-flex; align-items: center; gap: 7px;
+      color: #7c3aed; font-weight: 600; font-size: 13.5px;
+      text-decoration: none; margin-bottom: 1.5rem;
+      padding: 7px 14px; background: #ede9fe; border-radius: 8px;
+      transition: 0.2s;
+    }
+    .back-link:hover { background: #7c3aed; color: #fff; text-decoration: none; }
 
-        .main {
-            width: 350px;
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            padding: 20px;
-            background-color: #f9f9f9;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-        }
+    .orders-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 16px;
+    }
+    .order-card {
+      background: #fff; border-radius: 16px; border: 1px solid #ede9fe;
+      padding: 1.5rem; transition: box-shadow 0.2s;
+    }
+    .order-card:hover { box-shadow: 0 6px 20px rgba(124,58,237,0.1); }
+    .order-num {
+      font-size: 11px; font-weight: 700; color: #7c3aed;
+      text-transform: uppercase; letter-spacing: 0.08em;
+      margin-bottom: 0.75rem;
+      display: flex; align-items: center; gap: 6px;
+    }
+    .order-num i { font-size: 10px; }
+    .order-card h5 {
+      font-size: 15px; font-weight: 700; color: #1e1b2e;
+      margin-bottom: 0.75rem; line-height: 1.4;
+    }
+    .order-row {
+      display: flex; justify-content: space-between; align-items: center;
+      font-size: 13px; padding: 5px 0; border-bottom: 1px solid #f3f4f6;
+    }
+    .order-row:last-child { border-bottom: none; }
+    .order-row .lbl { color: #6b7280; }
+    .order-row .val { font-weight: 600; color: #1e1b2e; }
+    .order-price .val { color: #7c3aed; font-size: 15px; font-weight: 800; }
+    .order-badge {
+      display: inline-block; background: #dcfce7; color: #166534;
+      font-size: 11px; font-weight: 700; padding: 3px 10px;
+      border-radius: 999px; margin-bottom: 0.75rem;
+    }
 
-        .bodyone p {
-            margin: 5px 0;
-        }
-
-        .button-link {
-            margin: 20px;
-        }
-
-        .button-link a {
-            color: #000;
-            text-decoration: none;
-            font-weight: bold;
-            display: inline-flex;
-            align-items: center;
-            gap: 5px;
-        }
-
-        .button-link a:hover {
-            color: #555;
-        }
-
-        h2 {
-            text-align: center;
-            margin-top: 10px;
-        }
-
-    </style>
+    .empty-state { text-align: center; padding: 4rem 1rem; }
+    .empty-state i { font-size: 3rem; color: #c4b5fd; display: block; margin-bottom: 1rem; }
+    .empty-state h4 { font-weight: 700; color: #1e1b2e; margin-bottom: 0.5rem; }
+    .empty-state p { color: #6b7280; font-size: 14px; margin-bottom: 1.5rem; }
+    .btn-shop {
+      display: inline-block; padding: 11px 24px;
+      background: #7c3aed; color: #fff; border-radius: 10px;
+      font-weight: 700; text-decoration: none; transition: 0.2s;
+    }
+    .btn-shop:hover { background: #5b21b6; color: #fff; text-decoration: none; }
+  </style>
 </head>
 <body>
-    {% include 'heads.html' %}
+{% include 'heads.html' %}
 
-    <div class="button-link">
-        <a href="{{ url_for('index') }}">
-            <i class="fa-solid fa-arrow-left"></i> Buy More
-        </a>
+<div class="history-wrap">
+  <a href="{{ url_for('index') }}" class="back-link"><i class="fas fa-arrow-left"></i> Back to Shop</a>
+  <h2 class="page-heading">Purchase <span>History</span></h2>
+  <p class="page-sub">All your completed orders in one place</p>
+
+  {% if result %}
+  <div class="orders-grid">
+    {% for value in result %}
+    <div class="order-card">
+      <div class="order-num"><i class="fas fa-receipt"></i> Order #{{ value.purchaseid }}</div>
+      <span class="order-badge"><i class="fas fa-check-circle"></i> Completed</span>
+      <h5>{{ value.productname }}</h5>
+      <div class="order-row"><span class="lbl">Product ID</span><span class="val">{{ value.productid }}</span></div>
+      <div class="order-row"><span class="lbl">Quantity</span><span class="val">{{ value.quantity }}</span></div>
+      <div class="order-row order-price"><span class="lbl">Total Paid</span><span class="val">Rs {{ value.productprice }}</span></div>
+      <div class="order-row"><span class="lbl">Date</span><span class="val">{{ value.purchaseTime }}</span></div>
     </div>
+    {% endfor %}
+  </div>
+  {% else %}
+  <div class="empty-state">
+    <i class="fas fa-box-open"></i>
+    <h4>No purchases yet</h4>
+    <p>Looks like you haven't bought anything yet. Start shopping!</p>
+    <a href="{{ url_for('index') }}" class="btn-shop">Browse Products</a>
+  </div>
+  {% endif %}
+</div>
 
-    <h2>Your Purchases</h2>
-
-    <div class="container">
-        {% if result %}
-            {% for value in result %}
-                <div class="main">
-                    <div class="bodyone">
-                        <p><strong>Id:</strong> {{ value.productid }}</p>
-                        <p><strong>Product:</strong> {{ value.productname }}</p>
-                        <p><strong>Quantity:</strong> {{ value.quantity }}</p>
-                        <p><strong>Price:</strong> Rs {{ value.productprice }}</p>
-                        <p><strong>Purchased On:</strong> {{ value.purchaseTime }}</p>
-                    </div>
-                </div>
-            {% endfor %}
-        {% else %}
-            <p style="text-align:center; font-size:16px;">No Purchase Done</p>
-        {% endif %}
-    </div>
-
-    {% include 'foots.html' %}
+{% include 'foots.html' %}
 </body>
 </html>
