@@ -1,0 +1,58 @@
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.1/css/all.min.css">
+
+<style>
+:root {
+  --adark: #0f0d1a;
+  --asurface: #1a1728;
+  --acard: #221e35;
+  --aborder: rgba(139,92,246,0.2);
+  --apurple: #8b5cf6;
+  --apurple-light: #a78bfa;
+  --ared: #f43f5e;
+  --agreen: #22c55e;
+  --aamber: #f59e0b;
+  --atext: #e2d9f3;
+  --amuted: #9ca3af;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: 'Inter', sans-serif;
+  background: var(--adark);
+  color: var(--atext);
+  min-height: 100vh;
+}
+.admin-topbar {
+  background: var(--asurface);
+  border-bottom: 1px solid var(--aborder);
+  height: 58px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 1.5rem;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.4);
+}
+.admin-topbar .brand { font-size: 1.1rem; font-weight: 800; color: #a78bfa; }
+.admin-topbar .brand span { color: #f9a8d4; }
+.admin-topbar .topbar-right { display: flex; align-items: center; gap: 12px; font-size: 13px; color: var(--amuted); }
+.admin-topbar .topbar-right a {
+  color: #f43f5e; font-weight: 600; text-decoration: none;
+  padding: 6px 14px; border-radius: 8px;
+  border: 1px solid rgba(244,63,94,0.3); transition: 0.2s; font-size: 12.5px;
+}
+.admin-topbar .topbar-right a:hover { background: rgba(244,63,94,0.15); }
+.admin-shell { display: flex; min-height: calc(100vh - 58px); }
+</style>
+
+<nav class="admin-topbar">
+  <div class="brand">Admin</span></div>
+  <div class="topbar-right">
+    <span><i class="fas fa-user-shield"></i> Administrator</span>
+    <a href="/adminlogout"><i class="fas fa-sign-out-alt"></i> Logout</a>
+  </div>
+</nav>

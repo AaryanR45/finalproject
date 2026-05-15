@@ -1,0 +1,70 @@
+<style>
+.admin-sidebar {
+  width: 220px;
+  flex-shrink: 0;
+  background: #1a1728;
+  border-right: 1px solid rgba(139,92,246,0.2);
+  padding: 1.25rem 0.75rem;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  min-height: calc(100vh - 58px);
+}
+.sidebar-section-label {
+  font-size: 10px;
+  font-weight: 700;
+  color: #6b7280;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  padding: 8px 12px 4px;
+  margin-top: 8px;
+}
+.admin-sidebar a {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 9px 12px;
+  border-radius: 8px;
+  font-size: 13.5px;
+  font-weight: 500;
+  color: #c4b5fd;
+  text-decoration: none;
+  transition: all 0.15s;
+  border: 1px solid transparent;
+}
+.admin-sidebar a:hover {
+  background: rgba(139,92,246,0.15);
+  color: #a78bfa;
+  border-color: rgba(139,92,246,0.2);
+  text-decoration: none;
+}
+.admin-sidebar a.active {
+  background: rgba(139,92,246,0.2);
+  color: #e9d5ff;
+  border-color: rgba(139,92,246,0.35);
+}
+.admin-sidebar a i { width: 16px; text-align: center; font-size: 13px; }
+.sidebar-divider { height: 1px; background: rgba(139,92,246,0.15); margin: 8px 0; }
+.admin-sidebar .logout-link { color: #fca5a5 !important; }
+.admin-sidebar .logout-link:hover { background: rgba(244,63,94,0.1) !important; border-color: rgba(244,63,94,0.2) !important; }
+</style>
+
+<div class="admin-sidebar">
+  <div class="sidebar-section-label">Overview</div>
+  <a href="/admin"><i class="fas fa-th-large"></i> Dashboard</a>
+
+  <div class="sidebar-section-label">Catalog</div>
+  <a href="/products"><i class="fas fa-boxes"></i> Products</a>
+  <a href="/addproduct"><i class="fas fa-plus-circle"></i> Add Product</a>
+  <a href="/category"><i class="fas fa-folder"></i> Categories</a>
+  <a href="/addcategory"><i class="fas fa-folder-plus"></i> Add Category</a>
+
+  <div class="sidebar-section-label">Users & Orders</div>
+  <a href="/adminusers"><i class="fas fa-users"></i> Active Users</a>
+  <a href="/adminusersdeactive"><i class="fas fa-user-slash"></i> Inactive Users</a>
+  <a href="/purchase"><i class="fas fa-receipt"></i> Purchases</a>
+
+  <div class="sidebar-divider"></div>
+  <a href="/index"><i class="fas fa-store"></i> View Store</a>
+  <a href="/adminlogout" class="logout-link"><i class="fas fa-sign-out-alt"></i> Logout</a>
+</div>

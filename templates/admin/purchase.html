@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Purchases — Admin</title>
+  <style>
+    .admin-main { flex: 1; padding: 2rem; overflow-y: auto; }
+    .page-head { margin-bottom: 1.5rem; }
+    .page-head h1 { font-size: 1.5rem; font-weight: 800; color: #e2d9f3; }
+    .page-head p { color: #9ca3af; font-size: 13px; margin-top: 2px; }
+    .purchases-table { background: #1a1728; border: 1px solid rgba(139,92,246,0.2); border-radius: 14px; overflow: hidden; }
+    .purchases-table table { width: 100%; border-collapse: collapse; font-size: 13px; }
+    .purchases-table th { padding: 12px 14px; text-align: left; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: #8b5cf6; background: rgba(139,92,246,0.08); border-bottom: 1px solid rgba(139,92,246,0.15); }
+    .purchases-table td { padding: 12px 14px; color: #c4b5fd; border-bottom: 1px solid rgba(139,92,246,0.07); vertical-align: middle; }
+    .purchases-table tr:last-child td { border-bottom: none; }
+    .purchases-table tr:hover td { background: rgba(139,92,246,0.04); }
+    .user-chip { display: inline-flex; align-items: center; gap: 5px; background: rgba(139,92,246,0.1); color: #a78bfa; padding: 3px 10px; border-radius: 999px; font-size: 12px; font-weight: 600; }
+    .price-val { font-weight: 700; color: #4ade80; }
+    .empty { text-align: center; padding: 3rem; color: #6b7280; }
+  </style>
+</head>
+<body>
+{% include './admin/adminheader.html' %}
+<div class="admin-shell">
+  {% include './admin/adminsidebar.html' %}
+  <div class="admin-main">
+    <div class="page-head">
+      <h1><i class="fas fa-receipt"></i> All Purchases</h1>
+      <p>Complete purchase history across all users</p>
+    </div>
+    <div class="purchases-table">
+      <table>
+        <thead>
+          <tr>
+            <th>Order ID</th><th>User</th><th>Product</th>
+            <th>Qty</th><th>Total</th><th>Date</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% if results %}
+            {% for datas in results %}
+              {% set matched_user = namespace(name='Unknown') %}
+              {% for values in names %}
+                {% if datas.userid == values.id %}
+                  {% set matched_user.name = values.username %}
+                {% endif %}
+              {% endfor %}
+              <tr>
+                <td style="color:#6b7280;">#{{ datas.purchaseid }}</td>
+                <td><span class="user-chip"><i class="fas fa-user fa-xs"></i> {{ matched_user.name }}</span></td>
+                <td style="color:#e2d9f3;font-weight:600;">{{ datas.productname }}</td>
+                <td>{{ datas.quantity }}</td>
+                <td class="price-val">Rs {{ datas.productprice }}</td>
+                <td style="color:#6b7280;font-size:12px;">{{ datas.purchaseTime }}</td>
+              </tr>
+            {% endfor %}
+          {% else %}
+          <tr><td colspan="6" class="empty">No purchases yet</td></tr>
+          {% endif %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+</body>
+</html>

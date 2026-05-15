@@ -123,6 +123,16 @@ class Category(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     Categories = db.Column(db.String(255), nullable=False)
 
+from functools import wraps
+
+def admin_required(f):
+    """Decorator that blocks non-admins from accessing admin routes."""
+    @wraps(f)
+    def decorated_function(*args, **kwargs):
+        if not session.get('adminlogin'):
+            return redirect(url_for('signin'))
+        return f(*args, **kwargs)
+    return decorated_function
 
 # ----------------------
 # Load data for recommendations
@@ -396,10 +406,10 @@ def signin():
             products = DisplayProduct.query.all()
             return render_template('index.html', data=products, message=signin_message, value=user.username)
         elif admins:
-            session['adminlogin'] = admins.id
             session['adminlogin'] = True
+            session['admin_id'] = admins.id
             signin_message = "Welcome Admin"
-            return render_template('./admin/admin.html', signin_message=signin_message)
+            return redirect(url_for('admin'))
         elif not user:
             signin_message = "Invalid Username"
         elif user and user.password != password:
@@ -611,6 +621,7 @@ def detail():
 
 
 @app.route("/admin")
+@admin_required
 def admin():
     selectcount = text("select count(purchaseid) from purchase ")
     count = db.session.execute(selectcount).fetchone()
@@ -640,6 +651,7 @@ def admin():
 
 
 @app.route("/adminusers")
+@admin_required
 def adminusers():
     query = text("Select * from signup where status =1")
     user = db.session.execute(query).fetchall()
@@ -648,12 +660,14 @@ def adminusers():
 
 
 @app.route("/adminlogout")
+@admin_required
 def adminlogout():
     session.pop('adminlogin', None)
     return redirect(url_for('index'))
 
 
 @app.route("/adminusersdeactive")
+@admin_required
 def adminusersdeactive():
     query = text("Select * from signup where status =0")
     user = db.session.execute(query).fetchall()
@@ -662,6 +676,7 @@ def adminusersdeactive():
 
 
 @app.route("/activateuser", methods=['POST'])
+@admin_required
 def activateuser():
     userid = request.form.get('userid')
     username = request.form.get('username')
@@ -672,6 +687,7 @@ def activateuser():
 
 
 @app.route("/removeuser", methods=['POST', 'GET'])
+@admin_required
 def removeuser():
     userid = request.form.get('userid')
     username = request.form.get('username')
@@ -682,6 +698,7 @@ def removeuser():
 
 
 @app.route("/products")
+@admin_required
 def products():
     query = text("Select * from displayproduct")
     result = db.session.execute(query).fetchall()
@@ -695,6 +712,7 @@ def products():
 
 
 @app.route("/editproduct", methods=['POST'])
+@admin_required
 def editproduct():
     productid = request.form.get("productid")
     productname = request.form.get("productname")
@@ -711,6 +729,7 @@ def editproduct():
 
 
 @app.route("/changedata", methods=['POST'])
+@admin_required
 def changedata():
     pid = request.form.get('id')
     pname = request.form.get('pname')
@@ -763,6 +782,7 @@ def changedata():
 
 
 @app.route("/delete", methods=['POST'])
+@admin_required
 def delete():
     id_ = request.form.get('productid')
     name = request.form.get('productname')
@@ -780,6 +800,7 @@ def delete():
 
 
 @app.route("/purchase")
+@admin_required
 def purchase():
     query = text("Select * from purchase")
     result = db.session.execute(query).fetchall()
@@ -803,11 +824,13 @@ def purchase():
 
 
 @app.route("/addproduct")
+@admin_required
 def addproduct():
     return render_template('admin/addproduct.html')
 
 
 @app.route("/insert", methods=['POST'])
+@admin_required
 def insert():
     id_ = request.form.get('id', '')
     name = request.form.get('name', '')
@@ -848,6 +871,7 @@ def insert():
 
 
 @app.route("/category")
+@admin_required
 def category():
     query = text("Select * from category")
     result = db.session.execute(query).fetchall()
@@ -855,6 +879,7 @@ def category():
 
 
 @app.route("/deletecategory", methods=['POST'])
+@admin_required
 def deletecategory():
     pname = request.form.get('productname')
     pid = request.form.get('productid')
@@ -865,11 +890,13 @@ def deletecategory():
 
 
 @app.route("/addcategory")
+@admin_required
 def addcategory():
     return render_template('admin/addcategory.html')
 
 
 @app.route("/insertcategory", methods=['POST'])
+@admin_required
 def insertcategory():
     cname = request.form.get('name')
     query = text("insert into category (Categories) values (:name)")

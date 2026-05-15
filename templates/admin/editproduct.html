@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Edit Product — Admin</title>
+  <style>
+    .admin-main { flex: 1; padding: 2rem; overflow-y: auto; }
+    .page-head { margin-bottom: 1.5rem; }
+    .page-head h1 { font-size: 1.5rem; font-weight: 800; color: #e2d9f3; }
+    .form-card { background: #1a1728; border: 1px solid rgba(139,92,246,0.2); border-radius: 16px; padding: 2rem; max-width: 640px; margin-bottom: 1.5rem; }
+    .form-group { margin-bottom: 1rem; }
+    .form-group label { display: block; font-size: 12px; font-weight: 700; color: #9ca3af; text-transform: uppercase; letter-spacing: 0.07em; margin-bottom: 5px; }
+    .form-group input, .form-group textarea {
+      width: 100%; padding: 10px 14px;
+      background: #221e35; border: 1px solid rgba(139,92,246,0.25);
+      border-radius: 8px; color: #e2d9f3; font-size: 14px; outline: none;
+      transition: border-color 0.2s; font-family: inherit;
+    }
+    .form-group input:focus, .form-group textarea:focus { border-color: #8b5cf6; }
+    .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0 1rem; }
+    .btn-save { padding: 11px 24px; background: #8b5cf6; color: #fff; border: none; border-radius: 10px; font-weight: 700; font-size: 14px; cursor: pointer; transition: 0.2s; }
+    .btn-save:hover { background: #7c3aed; }
+    .no-data { color: #6b7280; padding: 2rem; text-align: center; }
+  </style>
+</head>
+<body>
+{% include './admin/adminheader.html' %}
+<div class="admin-shell">
+  {% include './admin/adminsidebar.html' %}
+  <div class="admin-main">
+    <div class="page-head">
+      <h1><i class="fas fa-pen"></i> Edit Product</h1>
+    </div>
+
+    {% if result %}
+      {% for values in result %}
+      <div class="form-card">
+        <form action="/changedata" method="post">
+          <input type="hidden" name="id" value="{{ values.pid }}">
+          <div class="form-group"><label>Product Name</label><input type="text" value="{{ values.pname }}" name="pname"></div>
+          <div class="form-grid">
+            <div class="form-group"><label>Brand</label><input type="text" value="{{ values.brand }}" name="brand"></div>
+            <div class="form-group"><label>Category</label><input type="text" value="{{ values.category }}" name="category"></div>
+            <div class="form-group"><label>Price</label><input type="number" value="{{ values.price }}" name="price" step="0.5"></div>
+            <div class="form-group"><label>Rating</label><input type="number" value="{{ values.rating }}" name="rating" step="0.5"></div>
+            <div class="form-group"><label>Review Count</label><input type="number" value="{{ values.reviewcount }}" name="reviewcount"></div>
+          </div>
+          <div class="form-group"><label>Image URL</label><input type="text" value="{{ values.imageurl }}" name="imageurl"></div>
+          <div class="form-group"><label>Description</label><textarea rows="4" name="description">{{ values.description }}</textarea></div>
+          <button type="submit" class="btn-save"><i class="fas fa-save"></i> Save Changes</button>
+        </form>
+      </div>
+      {% endfor %}
+    {% endif %}
+
+    {% if datas %}
+      {% for product in datas %}
+      <div class="form-card">
+        <form action="/changedata" method="post">
+          <input type="hidden" name="id" value="{{ product.productId }}">
+          <div class="form-group"><label>Product Name</label><input type="text" value="{{ product.productname }}" name="pname"></div>
+          <div class="form-grid">
+            <div class="form-group"><label>Brand</label><input type="text" value="{{ product.productbrand }}" name="brand"></div>
+            <div class="form-group"><label>Category</label><input type="text" value="{{ product.category }}" name="category"></div>
+            <div class="form-group"><label>Price</label><input type="number" value="{{ product.price }}" name="price" step="0.5"></div>
+            <div class="form-group"><label>Rating</label><input type="number" value="{{ product.rating }}" name="rating" step="0.5"></div>
+            <div class="form-group"><label>Review Count</label><input type="number" value="{{ product.reviewcount }}" name="reviewcount"></div>
+          </div>
+          <div class="form-group"><label>Image URL</label><input type="text" value="{{ product.imageurl }}" name="imageurl"></div>
+          <div class="form-group"><label>Description</label><textarea rows="4" name="description">{{ product.description }}</textarea></div>
+          <button type="submit" class="btn-save"><i class="fas fa-save"></i> Save Changes</button>
+        </form>
+      </div>
+      {% endfor %}
+    {% else %}
+      {% if not result %}<p class="no-data">No product found to edit.</p>{% endif %}
+    {% endif %}
+  </div>
+</div>
+</body>
+</html>

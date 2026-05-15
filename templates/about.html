@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>About — PowerPlay</title>
+  <style>
+    .about-hero {
+      background: linear-gradient(135deg, #0A1F44 0%, #0A1F44 60%, #0A1F44 100%);
+      color: #fff;
+      border-bottom: 1px solid rgba(139,92,246,0.2);
+      padding: 4rem 2rem;
+      text-align: center;
+    }
+    .about-hero .badge {
+      display: inline-block; background: rgba(139,92,246,0.15);
+      color: #a78bfa; border: 1px solid rgba(139,92,246,0.3);
+      font-size: 12px; font-weight: 700; padding: 4px 14px;
+      border-radius: 999px; text-transform: uppercase; letter-spacing: 0.08em;
+      margin-bottom: 1.25rem;
+    }
+    .about-hero h1 { font-size: 2.5rem; font-weight: 800; color: #fff; letter-spacing: -0.8px; margin-bottom: 0.75rem; }
+    .about-hero h1 span { color: #a78bfa; }
+    .about-hero p { color: #9ca3af; font-size: 1.05rem; max-width: 540px; margin: 0 auto; line-height: 1.7; }
+
+    .about-wrap { max-width: 1000px; margin: 0 auto; padding: 3rem 1.5rem; }
+
+    .section-label {
+      font-size: 11px; font-weight: 700; text-transform: uppercase;
+      letter-spacing: 0.1em; color: #8b5cf6; margin-bottom: 0.5rem;
+    }
+    .section-title { font-size: 1.4rem; font-weight: 800; color: #1e1b2e; margin-bottom: 0.75rem; letter-spacing: -0.4px; }
+    .section-body { color: #4b5563; font-size: 14.5px; line-height: 1.8; margin-bottom: 2.5rem; }
+
+    .cards-row { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 16px; margin-bottom: 3rem; }
+    .info-card {
+      background: #fff; border-radius: 14px; border: 1px solid #ede9fe;
+      padding: 1.5rem; text-align: center;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .info-card:hover { transform: translateY(-4px); box-shadow: 0 10px 28px rgba(124,58,237,0.1); }
+    .info-card .card-icon {
+      width: 52px; height: 52px; border-radius: 14px;
+      background: #ede9fe; color: #7c3aed;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.3rem; margin: 0 auto 1rem;
+    }
+    .info-card h4 { font-size: 14px; font-weight: 700; color: #1e1b2e; margin-bottom: 4px; }
+    .info-card p { font-size: 13px; color: #6b7280; line-height: 1.5; }
+
+    .tech-section { background: #fff; border-radius: 16px; border: 1px solid #ede9fe; padding: 2rem; margin-bottom: 3rem; }
+    .tech-chips { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 1rem; }
+    .tech-chip {
+      display: inline-flex; align-items: center; gap: 7px;
+      background: #f8f7ff; border: 1px solid #c4b5fd;
+      color: #5b21b6; padding: 7px 14px; border-radius: 8px;
+      font-size: 13px; font-weight: 600;
+    }
+    .tech-chip i { font-size: 0.95rem; color: #8b5cf6; }
+
+    .contact-card {
+      background: linear-gradient(135deg, #4c1d95, #7c3aed);
+      border-radius: 16px; padding: 2.5rem; color: #fff; text-align: center;
+    }
+    .contact-card h3 { font-size: 1.3rem; font-weight: 800; margin-bottom: 0.5rem; }
+    .contact-card p { opacity: 0.85; font-size: 14px; margin-bottom: 1.5rem; }
+    .contact-items { display: flex; justify-content: center; gap: 2rem; flex-wrap: wrap; }
+    .contact-item { display: flex; flex-direction: column; align-items: center; gap: 4px; }
+    .contact-item i { font-size: 1.3rem; color: #f9a8d4; }
+    .contact-item span { font-size: 13px; opacity: 0.85; }
+  </style>
+</head>
+<body>
+{% include 'heads.html' %}
+
+<div class="about-hero">
+  <div class="badge">About Us</div>
+  <h1>PowerPlay</span></h1>
+  <p>Sports equipment store built with recommendations.</p>
+</div>
+
+<div class="about-wrap">
+
+  <div class="section-label">The Project</div>
+  <h2 class="section-title">What Is PowerPlay?</h2>
+  <p class="section-body">
+    PowerPlay is a full-stack sports e-commerce platform.
+    It features a content-based product recommendation engine built entirely from scratch using TF-IDF and Cosine Similarity.
+      When you view or search a product, the system finds similar items based on their description tags.
+    Payments are handled through eSewa, Nepal's leading digital wallet.
+  </p>
+
+  <div class="cards-row">
+    <div class="info-card">
+      <div class="card-icon"><i class="fas fa-robot"></i></div>
+      <h4>Recommendations</h4>
+      <p>TF-IDF + Cosine Similarity built from scratch.</p>
+    </div>
+    <div class="info-card">
+      <div class="card-icon"><i class="fas fa-shield-alt"></i></div>
+      <h4>Admin Panel</h4>
+      <p>Full dashboard to manage products, users, categories and view all orders.</p>
+    </div>
+    <div class="info-card">
+      <div class="card-icon"><i class="fas fa-database"></i></div>
+      <h4>MySQL Database</h4>
+      <p>Relational data model with users, products, carts, and purchase records.</p>
+    </div>
+  </div>
+
+  <div class="tech-section">
+    <div class="section-label">Tech Stack</div>
+    <h2 class="section-title" style="margin-bottom:0.25rem;">Built With</h2>
+    <div class="tech-chips">
+      <span class="tech-chip"><i class="fab fa-python"></i> Python 3.10</span>
+      <span class="tech-chip"><i class="fas fa-flask"></i> Flask 3.1</span>
+      <span class="tech-chip"><i class="fas fa-database"></i> MySQL</span>
+      <span class="tech-chip"><i class="fas fa-table"></i> SQLAlchemy</span>
+      <span class="tech-chip"><i class="fas fa-chart-line"></i> Pandas</span>
+      <span class="tech-chip"><i class="fas fa-brain"></i> TF-IDF (custom)</span>
+      <span class="tech-chip"><i class="fab fa-bootstrap"></i> Bootstrap 4</span>
+      <span class="tech-chip"><i class="fas fa-credit-card"></i> eSewa API</span>
+      <span class="tech-chip"><i class="fas fa-lock"></i> HMAC-SHA256</span>
+    </div>
+  </div>
+
+  <div class="contact-card">
+    <h3>Get In Touch</h3>
+    <p>Questions about the project? Feel free to reach out.</p>
+    <div class="contact-items">
+      <div class="contact-item"><i class="fas fa-map-marker-alt"></i><span>Kathmandu</span></div>
+      <div class="contact-item"><i class="fas fa-phone"></i><span>+977 987654321</span></div>
+      <div class="contact-item"><i class="fas fa-envelope"></i><span>powerplay@gmail.com</span></div>
+    </div>
+  </div>
+
+</div>
+
+{% include 'foots.html' %}
+</body>
+</html>

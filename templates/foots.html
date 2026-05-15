@@ -1,10 +1,11 @@
 <style>
 .psg-footer {
-  background: #1e1b2e;
-  color: #c4b5fd;
+  background: #071730;
+  color: #d6deed;
   padding: 3rem 2rem 1.5rem;
   margin-top: 4rem;
 }
+
 .psg-footer-grid {
   max-width: 1100px;
   margin: 0 auto;
@@ -12,8 +13,9 @@
   grid-template-columns: 2fr 1fr 1fr;
   gap: 2.5rem;
   padding-bottom: 2rem;
-  border-bottom: 1px solid rgba(196,181,253,0.15);
+  border-bottom: 1px solid rgba(214,222,237,0.15);
 }
+
 .psg-footer h4 {
   color: #fff;
   font-size: 15px;
@@ -21,19 +23,33 @@
   margin-bottom: 0.9rem;
   letter-spacing: -0.2px;
 }
-.psg-footer p, .psg-footer li {
+
+.psg-footer p,
+.psg-footer li {
   font-size: 13.5px;
   line-height: 1.7;
-  color: #a78bfa;
+  color: #b8c4db;
 }
-.psg-footer ul { list-style: none; padding: 0; }
-.psg-footer ul li { margin-bottom: 6px; }
+
+.psg-footer ul {
+  list-style: none;
+  padding: 0;
+}
+
+.psg-footer ul li {
+  margin-bottom: 6px;
+}
+
 .psg-footer ul li a {
-  color: #a78bfa;
+  color: #b8c4db;
   text-decoration: none;
   transition: color 0.2s;
 }
-.psg-footer ul li a:hover { color: #f9a8d4; }
+
+.psg-footer ul li a:hover {
+  color: #f9a8d4;
+}
+
 .psg-footer .brand-footer {
   font-size: 1.2rem;
   font-weight: 800;
@@ -41,43 +57,89 @@
   margin-bottom: 0.6rem;
   display: block;
 }
-.psg-footer .brand-footer span { color: #f9a8d4; }
+
+.psg-footer .brand-footer span {
+  color: #f9a8d4;
+}
+
 .psg-footer-bottom {
   max-width: 1100px;
   margin: 1.25rem auto 0;
   text-align: center;
   font-size: 12.5px;
-  color: #6b7280;
+  color: #7f8aa3;
 }
+
 @media (max-width: 640px) {
-  .psg-footer-grid { grid-template-columns: 1fr; gap: 1.5rem; }
+  .psg-footer-grid {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
 }
 </style>
 
 <footer class="psg-footer">
   <div class="psg-footer-grid">
+
     <div>
       <span class="brand-footer">PowerPlay</span>
-      <p>Nepal's go-to sports equipment store. Quality gear for cricketers, footballers, and athletes of all levels.</p>
+
+      <p>
+        Nepal's go-to sports equipment store. Quality gear for cricketers,
+        footballers, and athletes of all levels.
+      </p>
     </div>
+
     <div>
       <h4>Quick Links</h4>
+
       <ul>
-        <li><a href="/index"><i class="fas fa-home fa-xs"></i> Home</a></li>
-        <li><a href="/categories"><i class="fas fa-th fa-xs"></i> Categories</a></li>
-        <li><a href="/about"><i class="fas fa-info-circle fa-xs"></i> About</a></li>
-        <li><a href="/cart"><i class="fas fa-shopping-cart fa-xs"></i> Cart</a></li>
+        <li>
+          <a href="/index">
+            <i class="fas fa-home fa-xs"></i> Home
+          </a>
+        </li>
+
+        <li>
+          <a href="/categories">
+            <i class="fas fa-th fa-xs"></i> Categories
+          </a>
+        </li>
+
+        <li>
+          <a href="/about">
+            <i class="fas fa-info-circle fa-xs"></i> About
+          </a>
+        </li>
+
+        <li>
+          <a href="/cart">
+            <i class="fas fa-shopping-cart fa-xs"></i> Cart
+          </a>
+        </li>
       </ul>
     </div>
+
     <div>
       <h4>Contact</h4>
+
       <ul>
-        <li><i class="fas fa-map-marker-alt fa-xs"></i>Kathmandu</li>
-        <li><i class="fas fa-phone fa-xs"></i> +977 987654321</li>
-        <li><i class="fas fa-envelope fa-xs"></i> powerplay@gmail.com</li>
+        <li>
+          <i class="fas fa-map-marker-alt fa-xs"></i> Kathmandu
+        </li>
+
+        <li>
+          <i class="fas fa-phone fa-xs"></i> +977 987654321
+        </li>
+
+        <li>
+          <i class="fas fa-envelope fa-xs"></i> powerplay@gmail.com
+        </li>
       </ul>
     </div>
+
   </div>
+
   <div class="psg-footer-bottom">
     &copy; 2025 PowerPlay. All rights reserved.
   </div>
