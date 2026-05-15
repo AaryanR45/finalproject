@@ -129,7 +129,7 @@
         <span class="stars">
           {% for i in range(product['Rating'] | int) %}★{% endfor %}{% for i in range(5 - (product['Rating'] | int)) %}☆{% endfor %}
         </span>
-        <span>{{ product['Rating'] }} / 5 &nbsp;·&nbsp; {{ product['ReviewCount'] | int }} reviews</span>
+        <span>{{ product['Rating'] }} / 5 </span>
       </div>
       <p class="desc-text">{{ product['Description'].split('.')[0].strip() }}.</p>
       <div class="price-big">Rs {{ product['Price'] }} <span>/ unit</span></div>
@@ -149,7 +149,7 @@
   {% if recommendations1 %}
   <div class="rec-section">
     <div class="section-head">
-      <span class="pill">✨ AI Recommended</span>
+      <span class="pill">✨ Recommended</span>
       <h2>Similar Products You'll Love</h2>
     </div>
     <div class="rec-grid">
