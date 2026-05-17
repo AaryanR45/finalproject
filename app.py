@@ -8,17 +8,26 @@ import math
 import hmac
 import hashlib
 import base64
+from dotenv import load_dotenv
+import os
 
-
+load_dotenv()
 # object of flask
 # built in syntax cannot change
 app = Flask(__name__)
 
-# for database mysqlclient and flasksqlalchemy is installed
-# database configuration
-app.secret_key = "secretkeycanbeanythingonlyforsecuritypurpose"
-app.config['SQLALCHEMY_DATABASE_URI'] = "mysql+pymysql://root:aaryan123@localhost:3306/ecom?ssl_disabled=true"
+app.secret_key = os.getenv("SECRET_KEY")
+
+app.config['SQLALCHEMY_DATABASE_URI'] = (
+    f"mysql+pymysql://{os.getenv('DB_USER')}:"
+    f"{os.getenv('DB_PASSWORD')}@"
+    f"{os.getenv('DB_HOST')}:"
+    f"{os.getenv('DB_PORT')}/"
+    f"{os.getenv('DB_NAME')}?ssl_disabled=true"
+)
+
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+
 db = SQLAlchemy(app)
 
 

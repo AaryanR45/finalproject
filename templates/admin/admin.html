@@ -82,7 +82,9 @@
         <div class="stat-card">
           <div class="stat-icon icon-amber"><i class="fas fa-money-bill-wave"></i></div>
           <div class="stat-label">Total Revenue</div>
-          <div class="stat-value" style="font-size:1.4rem;">Rs {{ price or 0 }}</div>
+          <div class="stat-value" style="font-size:1.4rem;">
+  Rs {{ "%.2f"|format(price or 0) }}
+</div>
         </div>
       </div>
     </div>
