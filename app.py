@@ -970,3 +970,7 @@ if __name__ == '__main__':
         pass
 
     app.run(debug=True)
+
+# Recommendation engine optimization (need to eradicate random values)
+# Allow users to manage their profiles (update details, password change).
+# Testing
