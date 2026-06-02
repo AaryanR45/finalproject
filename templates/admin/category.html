@@ -34,7 +34,7 @@
           {% if result %}
             {% for cat in result %}
             <tr>
-              <td style="color:#6b7280">#{{ cat.id }}</td>
+              <td style="color:#6b7280">{{ loop.index }}</td>
               <td style="color:#e2d9f3;font-weight:600">{{ cat.Categories }}</td>
               <td>
                 <form action="/deletecategory" method="post" style="margin:0">
