@@ -397,40 +397,67 @@ def signup():
     products = DisplayProduct.query.all()
     return render_template('index.html', data=products, message="Please sign up")
 
-
 @app.route("/signin", methods=['GET', 'POST'])
 def signin():
     if request.method == 'POST':
         username = request.form['signinUsername']
         password = request.form['signinPassword']
 
-        user = Signup.query.filter_by(username=username, password=password, status=1, role="user").first()
-        admins = Admin.query.filter_by(adminName=username, adminPassword=password, role="admin").first()
+        user = Signup.query.filter_by(
+            username=username,
+            status=1,
+            role="user"
+        ).first()
+
+        admins = Admin.query.filter_by(
+            adminName=username,
+            role="admin"
+        ).first()
 
         if user:
-            session['userid'] = user.id
-            session['username'] = user.username
-            session['logged_in'] = True
-            signin_message = "Welcome"
-            products = DisplayProduct.query.all()
-            return render_template('index.html', data=products, message=signin_message, value=user.username)
+            if user.password == password:
+                session['userid'] = user.id
+                session['username'] = user.username
+                session['logged_in'] = True
+
+                signin_message = "Welcome"
+                products = DisplayProduct.query.all()
+
+                return render_template(
+                    'index.html',
+                    data=products,
+                    message=signin_message,
+                    value=user.username
+                )
+            else:
+                signin_message = "Invalid Password"
+
         elif admins:
-            session['adminlogin'] = True
-            session['admin_id'] = admins.id
-            signin_message = "Welcome Admin"
-            return redirect(url_for('admin'))
-        elif not user:
-            signin_message = "Invalid Username"
-        elif user and user.password != password:
-            signin_message = "Invalid Password"
+            if admins.adminPassword == password:
+                session['adminlogin'] = True
+                session['admin_id'] = admins.id
+
+                signin_message = "Welcome Admin"
+                return redirect(url_for('admin'))
+            else:
+                signin_message = "Invalid Password"
+
         else:
-            signin_message = "You are no longer able to login"
+            signin_message = "Invalid Username"
 
         products = DisplayProduct.query.all()
-        return render_template('index.html', data=products, message=signin_message)
-    products = DisplayProduct.query.all()
-    return render_template('index.html', data=products, message="Please log in")
+        return render_template(
+            'index.html',
+            data=products,
+            message=signin_message
+        )
 
+    products = DisplayProduct.query.all()
+    return render_template(
+        'index.html',
+        data=products,
+        message="Please log in"
+    )
 
 @app.route("/logout")
 def logout():
