@@ -92,19 +92,18 @@
       <div class="total-price">Rs {{ (value.price | float * value.quantity | float) | round(2) }}</div>
     </div>
     <div class="cart-actions">
-      <form action="/checkout" method="post" style="width:100%">
-        <input type="hidden" name="pid" value="{{ value.pid }}">
-        <input type="hidden" name="pname" value="{{ value.pname }}">
-        <input type="hidden" name="price" value="{{ value.price }}">
-        <input type="hidden" name="image" value="{{ value.image }}">
-        <input type="hidden" name="quantity" value="{{ value.quantity }}" id="hq-{{ value.pid }}">
-        <div class="qty-row" style="margin-bottom:8px;">
-          <label>Qty</label>
-          <input type="number" value="{{ value.quantity }}" min="1"
-                 onchange="document.getElementById('hq-{{ value.pid }}').value=this.value">
-        </div>
-        <button type="submit" class="btn-checkout"><i class="fas fa-bolt"></i> Checkout</button>
-      </form>
+      <form action="{{ url_for('checkout', pid=value.pid) }}" method="post" style="width:100%">
+  <input type="hidden" name="pname" value="{{ value.pname }}">
+  <input type="hidden" name="price" value="{{ value.price }}">
+  <input type="hidden" name="image" value="{{ value.image }}">
+  <input type="hidden" name="quantity" value="{{ value.quantity }}" id="hq-{{ value.pid }}">
+  <div class="qty-row" style="margin-bottom:8px;">
+    <label>Qty</label>
+    <input type="number" value="{{ value.quantity }}" min="1"
+           onchange="document.getElementById('hq-{{ value.pid }}').value=this.value">
+  </div>
+  <button type="submit" class="btn-checkout"><i class="fas fa-bolt"></i> Checkout</button>
+</form>
       <form action="/removeItem" method="post" style="width:100%">
         <input type="hidden" name="pid" value="{{ value.pid }}">
         <button type="submit" class="btn-remove"><i class="fas fa-trash"></i> Remove</button>

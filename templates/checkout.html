@@ -52,12 +52,12 @@
     }
     .pay-btn:hover { background: #16a34a; transform: translateY(-1px); }
 
-    .esewa-note {
+    .payment-note {
       margin-top: 1rem; text-align: center;
       font-size: 12.5px; color: #6b7280;
       display: flex; align-items: center; justify-content: center; gap: 6px;
     }
-    .esewa-note i { color: #22c55e; }
+    .payment-note i { color: #22c55e; }
   </style>
 </head>
 <body>
@@ -96,23 +96,16 @@
         <span class="value">Rs {{ esewa_info['price'] }}</span>
       </div>
 
-      <form action="https://rc-epay.esewa.com.np/api/epay/main/v2/form" method="POST">
-        <input type="hidden" name="amount" value="{{ esewa_info['amount'] }}">
-        <input type="hidden" name="tax_amount" value="0">
-        <input type="hidden" name="total_amount" value="{{ esewa_info['total_amount'] }}">
-        <input type="hidden" name="transaction_uuid" value="{{ esewa_info['transaction_uuid'] }}">
-        <input type="hidden" name="product_code" value="{{ esewa_info['product_code'] }}">
-        <input type="hidden" name="product_service_charge" value="0">
-        <input type="hidden" name="product_delivery_charge" value="0">
-        <input type="hidden" name="success_url" value="{{ esewa_info['success_url'] }}">
-        <input type="hidden" name="failure_url" value="{{ esewa_info['failure_url'] }}">
-        <input type="hidden" name="signed_field_names" value="{{ esewa_info['signed_field_names'] }}">
-        <input type="hidden" name="signature" value="{{ esewa_info['signature'] }}">
+      <form action="{{ url_for('checkout', pid=esewa_info['pid']) }}" method="POST">
+        <input type="hidden" name="pname" value="{{ esewa_info['pname'] }}">
+        <input type="hidden" name="image" value="{{ esewa_info['image'] }}">
+        <input type="hidden" name="price" value="{{ esewa_info['price'] }}">
+        <input type="hidden" name="quantity" value="{{ esewa_info['quantity'] }}">
         <button type="submit" class="pay-btn">
-          <i class="fas fa-lock"></i> Pay with eSewa
+          <i class="fas fa-lock"></i> Pay with Stripe
         </button>
       </form>
-      <div class="esewa-note"><i class="fas fa-shield-alt"></i> Secured by eSewa — Nepal's trusted payment gateway</div>
+      <div class="payment-note"><i class="fas fa-shield-alt"></i> Secured by Stripe — test mode</div>
     </div>
   </div>
 </div>

@@ -10,6 +10,7 @@ import hashlib
 import base64
 from dotenv import load_dotenv
 import os
+import stripe
 
 load_dotenv()
 # object of flask
@@ -17,7 +18,7 @@ load_dotenv()
 app = Flask(__name__)
 
 app.secret_key = os.getenv("SECRET_KEY")
-
+stripe.api_key = os.environ["STRIPE_SECRET_KEY"]
 app.config['SQLALCHEMY_DATABASE_URI'] = (
     f"mysql+pymysql://{os.getenv('DB_USER')}:"
     f"{os.getenv('DB_PASSWORD')}@"
@@ -528,111 +529,123 @@ def cart():
     return render_template('cart.html', cartdata=cart_items)
 
 
-@app.route('/checkout', methods=['POST', 'GET'])
-def checkout():
-    pid = request.form.get('pid')
-    pname = request.form.get('pname')
-    price = request.form.get('price')
-    quantity = request.form.get('quantity')
-    image = request.form.get('image')
-    user = session.get('userid')
+@app.route('/checkout/<pid>', methods=['GET', 'POST'])
+def checkout(pid):
+    if 'logged_in' not in session:
+        return redirect(url_for('signin'))
+    user = session['userid']
 
-    # update cart quantity
-    query = text("Update carts set quantity=:quantity where userid=:userid and productid=:productid  ")
-    db.session.execute(query, {'quantity': quantity, 'userid': user, 'productid': pid})
-    db.session.commit()
+    # --- fetch product details the same way your existing code does ---
+    # (pname, image, unit price, quantity) — adapt to however you currently look these up
+    pname = request.form.get('pname') or request.args.get('pname')
+    image = request.form.get('image') or request.args.get('image')
+    unit_price = float(request.form.get('price') or request.args.get('price'))
+    quantity = int(request.form.get('quantity') or request.args.get('quantity', 1))
 
-    totalprice = int(quantity) * float(price)
+    totalprice = unit_price * quantity
 
-    delquery = text("Delete from carts where userid=:userid and productid=:productid")
-    db.session.execute(delquery, {'userid': user, 'productid': pid})
-    db.session.commit()
+    # Stripe expects the smallest currency unit. NPR has 2 decimal places,
+    # so amounts are in paisa (multiply by 100), same pattern as cents for USD.
+    amount_in_paisa = int(round(totalprice * 100))
 
-    insertquery = text("""
+    checkout_session = stripe.checkout.Session.create(
+        payment_method_types=['card'],
+        line_items=[{
+            'price_data': {
+                'currency': 'npr',
+                'product_data': {
+                    'name': pname,
+                    'images': [image] if image else [],
+                },
+                'unit_amount': int(round(unit_price * 100)),
+            },
+            'quantity': quantity,
+        }],
+        mode='payment',
+        success_url=url_for('stripe_success', _external=True) + '?session_id={CHECKOUT_SESSION_ID}',
+        cancel_url=url_for('stripe_failure', _external=True),
+        metadata={
+            'userid': user,
+            'pid': pid,
+            'pname': pname,
+            'image': image or '',
+            'quantity': str(quantity),
+        }
+    )
+
+    return redirect(checkout_session.url, code=303)
+
+
+@app.route('/stripe_success')
+def stripe_success():
+    session_id = request.args.get('session_id')
+    if not session_id:
+        return redirect(url_for('stripe_failure'))
+
+    checkout_session = stripe.checkout.Session.retrieve(session_id)
+
+    if checkout_session.payment_status != 'paid':
+        return redirect(url_for('stripe_failure'))
+
+    meta = checkout_session.metadata
+    userid = meta['userid']
+    pid = meta['pid']
+    pname = meta['pname']
+    image = meta['image']
+    quantity = int(meta['quantity'])
+    total_price = checkout_session.amount_total / 100
+
+    order_info = {
+        'pname': pname,
+        'image': image,
+        'quantity': quantity,
+        'price': total_price,
+    }
+
+    insert_purchase = text("""
         INSERT INTO purchase (productid, productname, quantity, productprice, userid)
         VALUES (:productid, :productname, :quantity, :productprice, :userid)
     """)
-    db.session.execute(insertquery,
-                       {'productid': pid, 'productname': pname, 'quantity': quantity, 'productprice': totalprice,
-                        'userid': user})
+    db.session.execute(insert_purchase, {
+        'productid': pid,
+        'productname': pname,
+        'quantity': quantity,
+        'productprice': total_price,
+        'userid': userid
+    })
+
+    remove_from_cart = text("""
+        DELETE FROM carts WHERE userid = :userid AND productid = :productid
+    """)
+    db.session.execute(remove_from_cart, {'userid': userid, 'productid': pid})
+
     db.session.commit()
 
-    esewa_info = {
-        'amount': totalprice,
-        'tax_amount': 0,
-        'total_amount': totalprice,
-        'transaction_uuid': f"{user}-{pid}-{uuid.uuid4()}",
-        'product_code': 'EPAYTEST',
-        'product_service_charge': 0,
-        'product_delivery_charge': 0,
-        'success_url': url_for('esewa_success', _external=True),
-        'failure_url': url_for('esewa_failure', _external=True),
-        'signed_field_names': 'total_amount,transaction_uuid,product_code',
-        'pid': pid,
-        'pname': pname,
-        'price': totalprice,
-        'quantity': quantity,
-        'image': image
-    }
+    return render_template('success.html',
+                            message="Payment Successful. Thank you for your purchase!",
+                            esewa_info=order_info)
 
-    session['esewa_info'] = esewa_info
-    secret_key = "8gBm/:&EnhH.1/q"
-    data_to_sign = f"total_amount={esewa_info['total_amount']},transaction_uuid={esewa_info['transaction_uuid']},product_code={esewa_info['product_code']}"
-    esewa_info['signature'] = gen_sha256(secret_key, data_to_sign)
-
-    return render_template('checkout.html', esewa_info=esewa_info)
-
-
-@app.route('/esewa_success', methods=['GET', 'POST'])
-def esewa_success():
-    esewa_info = session.pop('esewa_info', None)
-    return render_template('success.html', message="Payment Successful. Thank you for your purchase!", esewa_info=esewa_info)
-
-
-@app.route('/esewa_failure', methods=['GET', 'POST'])
-def esewa_failure():
+@app.route('/stripe_failure')
+def stripe_failure():
     if 'logged_in' not in session:
         return redirect(url_for('signin'))
-    else:
-        user = session['userid']
-    pid = request.form.get("pid")
-    pname = request.form.get("pname")
-    price = request.form.get("price")
-    image = request.form.get("image")
+    user = session['userid']
 
-    if pid and pname and price and image:
-        check = text("Select * from carts where userid = :userid and productid = :productid ")
-        checkresult = db.session.execute(check, {'userid': user, 'productid': pid}).fetchone()
-
-        if checkresult:
-            updata = text("Update carts set quantity = quantity+1 where userid = :userid and productid = :productid")
-            db.session.execute(updata, {'userid': user, 'productid': pid})
-            db.session.commit()
-        else:
-            adddata = text("""
-              INSERT INTO carts (userid, productid, productname, quantity, image, price) 
-              VALUES (:userid, :productid, :productname, 1, :image, :price)
-          """)
-            db.session.execute(adddata,
-                               {'userid': user, 'productid': pid, 'productname': pname, 'image': image, 'price': price})
-            db.session.commit()
-
-    query = text("Select * from carts where userid =  :userid")
+    # same cart-fetch logic as your old esewa_failure route
+    query = text("Select * from carts where userid = :userid")
     result = db.session.execute(query, {'userid': user}).fetchall()
 
     cart_items = []
-    if result:
-        for item in result:
-            cart_items.append({
-                'pid': item[2],
-                'pname': item[3],
-                'quantity': item[4],
-                'image': item[5],
-                'price': item[6]
-            })
+    for item in result:
+        cart_items.append({
+            'pid': item[2],
+            'pname': item[3],
+            'quantity': item[4],
+            'image': item[5],
+            'price': item[6]
+        })
 
     return render_template('cart.html', cartdata=cart_items)
-
 
 @app.route('/removeItem', methods=['POST'])
 def removeitem():
